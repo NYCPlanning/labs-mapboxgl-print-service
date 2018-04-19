@@ -1,35 +1,23 @@
+<div class="instructions">
+  <p class="instructions-step"><span class="step-number">1</span> <strong>Position the map.</strong> (You can adjust the map's pan and zoom.)</p>
+  <p class="instructions-step"><span class="step-number">2</span> <strong>Edit the map title.</strong> (Click the map title to edit the text.)</p>
+  <p class="instructions-step"><span class="step-number">3</span> <a class="button" href="javascript:window.print()">PRINT</a></p>
+</div>
+
 <section class="sheet padding-10mm">
-  <div class="site-header">
-    <div class="branding cell shrink large-auto">
-      <a href="http://www1.nyc.gov/site/planning/index.page" class="dcp-link"><img src="https://raw.githubusercontent.com/NYCPlanning/logo/master/dcp_logo_772.png" alt="NYC Planning" class="dcp-logo"></a>
-      <a href="/" id="ember342" class="site-name active ember-view">City Map</a>
-    </div>
+  <div class="container">
+    <h1 class="header">
+      <img src="https://raw.githubusercontent.com/NYCPlanning/logo/master/dcp_logo_772.png" alt="logo" class="header-logo">
+      <span contenteditable="true">{{title}}</span>
+    </h1>
+    <div id="map"></div>
+    {{#if content}}<div class="content">{{content}}</div>{{/if}}
   </div>
-<div id="map"></div>
 </section>
+
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
 <script>
-{{#if json}}
-const json = {{{json}}};
-{{else}}
-// defaults
-const json = {
-  style: '//raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/style.json',
-  center: [-73.93181409196421,40.708434183373726],
-  zoom: 10.2,
-  bearing: 0,
-  pitch: 0,
-}
-{{/if}}
 
-const { style, center, zoom, bearing, pitch } = json;
-const map = new mapboxgl.Map({
-  container: 'map',
-  style,
-  center,
-  zoom,
-  bearing,
-  pitch,
-});
+const map = new mapboxgl.Map({{{mapConfig}}});
 
 </script>

@@ -4,15 +4,16 @@
     <title>{{title}}</title>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
     <style>
+
       /* paper.css https://github.com/cognitom/paper-css/blob/master/paper.css */
       @page { margin: 0 }
       body { margin: 0 }
       .sheet {
-      margin: 0;
-      overflow: hidden;
-      position: relative;
-      box-sizing: border-box;
-      page-break-after: always;
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+        box-sizing: border-box;
+        page-break-after: always;
       }
 
       /** Paper sizes **/
@@ -35,40 +36,123 @@
 
       /** For screen preview **/
       @media screen {
-      body { background: #e0e0e0 }
-      .sheet {
-        background: white;
-        box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
-        margin: 5mm auto;
-      }
+        body { background: #e0e0e0 }
+        .sheet {
+          background: white;
+          box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
+          margin: 5mm auto;
+        }
       }
 
       /** Fix for Chrome issue #273306 **/
       @media print {
-               body.A3.landscape { width: 420mm }
-      body.A3, body.A4.landscape { width: 297mm }
-      body.A4, body.A5.landscape { width: 210mm }
-      body.A5                    { width: 148mm }
-      body.letter, body.legal    { width: 216mm }
-      body.letter.landscape      { width: 280mm }
-      body.legal.landscape       { width: 357mm }
+                 body.A3.landscape { width: 420mm }
+        body.A3, body.A4.landscape { width: 297mm }
+        body.A4, body.A5.landscape { width: 210mm }
+        body.A5                    { width: 148mm }
+        body.letter, body.legal    { width: 216mm }
+        body.letter.landscape      { width: 280mm }
+        body.legal.landscape       { width: 357mm }
       }
 
 
       /* custom css */
-      #map {
-        position: absolute;
-        top: 75px;
-        right: 30px;
-        bottom: 30px;
-        left: 30px;
+      body {
+        font-size: 10pt;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       }
 
-      .site-header .dcp-logo {
-        height: 1.5rem;
-        float: left;
-        margin-right: 1rem;
+      .container {
+        width: 100%;
+        height: 100%;
+        position: relative;
       }
+
+      #map {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin-top: 3.5em;
+        font-size: inherit;
+      }
+
+      .header {
+        margin: 0;
+        font-size: 2em;
+        line-height: 1;
+      }
+
+      .header-logo {
+        height: 1.5em;
+        float: left;
+        margin: -0.25em 0.5em 0 0;
+      }
+
+      .content {
+        position: absolute;
+        top: auto;
+        right: 50%;
+        bottom: 1em;
+        left: 1em;
+        padding: 0.75rem;
+        background-color: rgba(255,255,255,0.8);
+        box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
+        line-height: 1.5;
+      }
+
+      .button {
+        display: inline-block;
+        font-family: inherit;
+        padding: .85em 1em;
+        -webkit-appearance: none;
+        border: 1px solid transparent;
+        transition: background-color .25s ease-out,color .25s ease-out;
+        font-size: .9rem;
+        line-height: 1;
+        text-align: center;
+        cursor: pointer;
+        background-color: #ae561f;
+        color: #fefefe;
+        text-decoration: none;
+      }
+
+      .instructions {
+        margin: 0 auto;
+        padding: 2em 0 0;
+        max-width: 210mm;
+      }
+
+      .instructions-step {
+        float: left;
+        width: 33%;
+        margin: 0 0 1em;
+      }
+
+      .instructions-step strong {
+        display: block;
+      }
+
+      .step-number {
+        float: left;
+        min-width: 1em;
+        padding: 0.3em;
+        border-radius: 50%;
+        font-size: 1.5em;
+        line-height: 1;
+        text-align: center;
+        background: SteelBlue;
+        color: #fefefe;
+        margin: 0 10pt 10pt;
+      }
+
+      @media print {
+        .instructions {
+          display: none;
+        }
+      }
+
     </style>
   </head>
   <body class="letter landscape">
