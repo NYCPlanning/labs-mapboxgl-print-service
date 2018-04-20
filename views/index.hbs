@@ -37,6 +37,9 @@
 
 const map = new mapboxgl.Map({{{mapConfig}}});
 
+const nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'top-left');
+
 function toggleLandscape() {
   var element = document.body;
   element.classList.toggle('landscape');

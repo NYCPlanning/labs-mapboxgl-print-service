@@ -152,8 +152,13 @@
         margin: 0 9pt 9pt;
       }
 
+      .mapboxgl-ctrl-attrib {
+        font-size: 7pt;
+      }
+
       @media print {
-        .instructions {
+        .instructions,
+        .mapboxgl-ctrl-top-left {
           display: none;
         }
       }
@@ -170,6 +175,11 @@
           transform: scale(0.5);
           transform-origin: 10vw 0;
         }
+      }
+
+      /* Chrome & Safari can force the content/attributions backgrounds to use transparency */
+      .content, .mapboxgl-ctrl-attrib {
+        -webkit-print-color-adjust: exact; 
       }
 
     </style>
