@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{title}}</title>
+    <title>NYC Planning Map Printer</title>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
     <style>
 
@@ -56,7 +56,7 @@
       }
 
 
-      /* custom css */
+      /* Custom Styles */
       body {
         font-size: 10pt;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -104,34 +104,39 @@
 
       .button {
         display: inline-block;
-        font-family: inherit;
         padding: .85em 1em;
         -webkit-appearance: none;
-        border: 1px solid transparent;
-        transition: background-color .25s ease-out,color .25s ease-out;
-        font-size: .9rem;
         line-height: 1;
         text-align: center;
         cursor: pointer;
         background-color: #ae561f;
         color: #fefefe;
+        font-size: 12pt;
         text-decoration: none;
+        border-radius: 2pt;
+        box-shadow: 3pt 3px 0 0 rgba(0,0,0,0.1);
+      }
+      .button:hover {
+        background-color: #9d450e;
       }
 
-      .instructions {
-        margin: 0 auto;
-        padding: 2em 0 0;
-        max-width: 210mm;
+      @media screen and (min-width: 350mm) {
+        .instructions {
+          /* background-color: pink; */
+          width: 70mm;
+          float: left;
+          margin-left: calc(50vw - 140mm - 35mm);
+        }|
       }
 
       .instructions-step {
-        float: left;
-        width: 33%;
-        margin: 0 0 1em;
+        margin: 8mm 0;
       }
 
       .instructions-step strong {
         display: block;
+        margin-bottom: 0.25em;
+        font-size: 12pt;
       }
 
       .step-number {
@@ -144,12 +149,26 @@
         text-align: center;
         background: SteelBlue;
         color: #fefefe;
-        margin: 0 10pt 10pt;
+        margin: 0 9pt 9pt;
       }
 
       @media print {
         .instructions {
           display: none;
+        }
+      }
+
+      @media screen and (max-width: 300mm) {
+        .sheet {
+          transform: scale(0.7);
+          transform-origin: 10vw 0;
+        }
+      }
+
+      @media screen and (max-width: 200mm) {
+        .sheet {
+          transform: scale(0.5);
+          transform-origin: 10vw 0;
         }
       }
 

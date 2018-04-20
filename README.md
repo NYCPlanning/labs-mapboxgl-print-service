@@ -17,6 +17,8 @@ fetch('http://localhost:3000',{
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
+    title: 'My Map',
+    content: 'Lorem Ipsum',
     style: map.getStyle(),
     center: map.getCenter(),
     zoom: map.getZoom(),

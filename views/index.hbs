@@ -1,7 +1,24 @@
 <div class="instructions">
-  <p class="instructions-step"><span class="step-number">1</span> <strong>Position the map.</strong> (You can adjust the map's pan and zoom.)</p>
-  <p class="instructions-step"><span class="step-number">2</span> <strong>Edit the map title.</strong> (Click the map title to edit the text.)</p>
-  <p class="instructions-step"><span class="step-number">3</span> <a class="button" href="javascript:window.print()">PRINT</a></p>
+  <p class="instructions-step">
+    <span class="step-number">1</span>
+    <strong>Choose an orientation</strong>
+    <label><input onclick="toggleLandscape()" type="radio" name="gender" value="male"> Portrait</label>
+    <label><input onclick="toggleLandscape()" type="radio" name="gender" value="female" checked> Landscape</label>
+  </p>
+  <p class="instructions-step">
+    <span class="step-number">2</span>
+    <strong>Position the map</strong>
+    You can adjust the map's pan and zoom.
+  </p>
+  <p class="instructions-step">
+    <span class="step-number">3</span>
+    <strong>Edit the map title</strong>
+    Click the map title to edit the text.
+  </p>
+  <p class="instructions-step">
+    <span class="step-number">4</span>
+    <a class="button" href="javascript:window.print()">PRINT</a>
+  </p>
 </div>
 
 <section class="sheet padding-10mm">
@@ -19,5 +36,15 @@
 <script>
 
 const map = new mapboxgl.Map({{{mapConfig}}});
+
+function toggleLandscape() {
+  var element = document.body;
+  element.classList.toggle('landscape');
+
+  // Trigger window resize to resize the map
+  var evt = document.createEvent('UIEvents');
+  evt.initUIEvent('resize', true, false, window, 0);
+  window.dispatchEvent(evt);
+}
 
 </script>
