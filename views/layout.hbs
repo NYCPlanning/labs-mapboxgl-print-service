@@ -78,6 +78,67 @@
         font-size: inherit;
       }
 
+      #north-arrow {
+        position: absolute;
+        top: 16pt;
+        right: 16pt;
+        z-index: 2;
+        width: 16pt;
+        height: 16pt;
+        background-color: rgba(255,255,255,0.4);
+        border: 1pt solid #444;
+        border-radius: 100%;
+        box-shadow: 0 0 0 1.5pt rgba(255,255,255,1);
+        pointer-events: none;
+      }
+      #north-arrow .n {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        left: 50%;
+        margin-bottom: 1.5pt;
+        transform: translate(-50%,0);
+        text-align: center;
+        line-height: 1.75;
+        font-size: 6pt;
+        font-weight: bold;
+        width: 9pt;
+        height: 11pt;
+        background-color: rgba(255,255,255,0.5);
+        border-radius: 100% 100% 0 0;
+      }
+      #north-arrow:before {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 2;
+        top: -2pt;
+        right: 50%;
+        width: 0;
+        height: 0;
+        border-bottom: 16pt solid #000;
+        border-left: 8pt solid transparent;
+        -webkit-transform: skew(0,-30deg);
+           -moz-transform: skew(0,-30deg);
+             -o-transform: skew(0,-30deg);
+      }
+      #north-arrow:after {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 2;
+        top: -2pt;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-bottom: 16pt solid #888;
+        border-right: 8pt solid transparent;
+        -webkit-transform: skew(0,30deg);
+           -moz-transform: skew(0,30deg);
+             -o-transform: skew(0,30deg);
+      }
+
       .header {
         margin: 0;
         font-size: 2em;
@@ -179,7 +240,7 @@
 
       /* Chrome & Safari can force the content/attributions backgrounds to use transparency */
       .content, .mapboxgl-ctrl-attrib {
-        -webkit-print-color-adjust: exact; 
+        -webkit-print-color-adjust: exact;
       }
 
     </style>

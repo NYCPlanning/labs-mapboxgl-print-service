@@ -27,7 +27,9 @@
       <img src="https://raw.githubusercontent.com/NYCPlanning/logo/master/dcp_logo_772.png" alt="logo" class="header-logo">
       <span contenteditable="true">{{#if title}}{{title}}{{else}}Map Title{{/if}}</span>
     </h1>
-    <div id="map"></div>
+    <div id="map">
+      <div id="north-arrow" style="transform:rotate(0deg);"><span class="n">N</span></div>
+    </div>
     {{#if content}}<div class="content">{{content}}</div>{{/if}}
   </div>
 </section>
@@ -39,6 +41,10 @@ const map = new mapboxgl.Map({{{mapConfig}}});
 
 const nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'top-left');
+
+const scale = new mapboxgl.ScaleControl();
+map.addControl(scale, 'bottom-right');
+
 
 function toggleLandscape() {
   var element = document.body;
