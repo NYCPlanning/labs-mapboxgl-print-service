@@ -56,4 +56,11 @@ function toggleLandscape() {
   window.dispatchEvent(evt);
 }
 
+map.on('rotate', function(e) {
+  const bearing = map.getBearing();
+  document.getElementById('north-arrow').style.transform = 'rotate(' + (360 - bearing) + 'deg)';
+})
+
+
+
 </script>
