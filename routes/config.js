@@ -18,23 +18,21 @@ let defaults = {
 /* POST to render a map */
 router.post('/', function(req, res, next) {
   const { style, center, zoom, bearing, pitch, title, content } = req.body;
-  res.render('index', {
-    mapConfig: JSON.stringify({
-      container: 'map',
-      style,
-      center,
-      zoom,
-      bearing,
-      pitch
-    }),
-    title,
-    content,
-  });
+
+  req.session.config = req.body;
+  res.json({status: 'success'});
+  console.log(req.sessionID)
 });
 
 /* GET for testing and development */
 router.get('/', function(req, res, next) {
-  res.render('index', defaults);
+  console.log(req.sessionID)
+  if (req.session.config) {
+    res.json(req.session.config);
+  } else {
+    res.json({status: 'error'})
+  }
+
 });
 
 module.exports = router;
