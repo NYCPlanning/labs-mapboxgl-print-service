@@ -3,6 +3,7 @@
   <head>
     <title>NYC Planning Map Printer</title>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
   </head>
   <body class="letter landscape">
@@ -29,9 +30,13 @@
       </p>
     </div>
     <div id="react-container"></div>
+
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
-    <script src="https://fb.me/react-15.0.0.js"></script>
-    <script src="https://fb.me/react-dom-15.0.0.js"></script>
+    <script src="https://unpkg.com/react@15.6.1/dist/react.js"></script>
+  	<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/prop-types@15.5.10/prop-types.js"></script>
+    <script src="https://unpkg.com/react-input-autosize@2.0.0/dist/react-input-autosize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
     <script>
       var MapPrinter;
