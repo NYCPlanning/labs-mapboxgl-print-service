@@ -3,327 +3,58 @@
   <head>
     <title>NYC Planning Map Printer</title>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
-    <style>
-
-      /* paper.css https://github.com/cognitom/paper-css/blob/master/paper.css */
-      @page { margin: 0 }
-      body { margin: 0 }
-      .sheet {
-        margin: 0;
-        overflow: hidden;
-        position: relative;
-        box-sizing: border-box;
-        page-break-after: always;
-      }
-
-      /** Paper sizes **/
-      body.A3               .sheet { width: 297mm; height: 419mm }
-      body.A3.landscape     .sheet { width: 420mm; height: 296mm }
-      body.A4               .sheet { width: 210mm; height: 296mm }
-      body.A4.landscape     .sheet { width: 297mm; height: 209mm }
-      body.A5               .sheet { width: 148mm; height: 209mm }
-      body.A5.landscape     .sheet { width: 210mm; height: 147mm }
-      body.letter           .sheet { width: 216mm; height: 279mm }
-      body.letter.landscape .sheet { width: 280mm; height: 215mm }
-      body.legal            .sheet { width: 216mm; height: 356mm }
-      body.legal.landscape  .sheet { width: 357mm; height: 215mm }
-
-      /** Padding area **/
-      .sheet.padding-10mm { padding: 10mm }
-      .sheet.padding-15mm { padding: 15mm }
-      .sheet.padding-20mm { padding: 20mm }
-      .sheet.padding-25mm { padding: 25mm }
-
-      /** For screen preview **/
-      @media screen {
-        body { background: #e0e0e0 }
-        .sheet {
-          background: white;
-          box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
-          margin: 5mm auto;
-        }
-      }
-
-      /** Fix for Chrome issue #273306 **/
-      @media print {
-                 body.A3.landscape { width: 420mm }
-        body.A3, body.A4.landscape { width: 297mm }
-        body.A4, body.A5.landscape { width: 210mm }
-        body.A5                    { width: 148mm }
-        body.letter, body.legal    { width: 216mm }
-        body.letter.landscape      { width: 280mm }
-        body.legal.landscape       { width: 357mm }
-      }
-
-
-      /* Custom Styles */
-      body {
-        font-size: 10pt;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      }
-
-      .container {
-        width: 100%;
-        height: 100%;
-        position: relative;
-      }
-
-      #map {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin-top: 3.5em;
-        font-size: inherit;
-      }
-
-      #north-arrow {
-        position: absolute;
-        top: 16pt;
-        right: 16pt;
-        z-index: 2;
-        width: 16pt;
-        height: 16pt;
-        background-color: rgba(255,255,255,0.4);
-        border: 1pt solid #444;
-        border-radius: 100%;
-        box-shadow: 0 0 0 1.5pt rgba(255,255,255,1);
-        pointer-events: none;
-      }
-      #north-arrow .n {
-        display: block;
-        position: absolute;
-        z-index: 1;
-        bottom: 100%;
-        left: 50%;
-        margin-bottom: 1.5pt;
-        transform: translate(-50%,0);
-        text-align: center;
-        line-height: 1.75;
-        font-size: 6pt;
-        font-weight: bold;
-        width: 9pt;
-        height: 11pt;
-        background-color: rgba(255,255,255,0.5);
-        border-radius: 100% 100% 0 0;
-      }
-      #north-arrow:before {
-        content: '';
-        display: block;
-        position: absolute;
-        z-index: 2;
-        top: -2pt;
-        right: 50%;
-        width: 0;
-        height: 0;
-        border-bottom: 16pt solid #000;
-        border-left: 8pt solid transparent;
-        -webkit-transform: skew(0,-30deg);
-           -moz-transform: skew(0,-30deg);
-             -o-transform: skew(0,-30deg);
-      }
-      #north-arrow:after {
-        content: '';
-        display: block;
-        position: absolute;
-        z-index: 2;
-        top: -2pt;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-bottom: 16pt solid #888;
-        border-right: 8pt solid transparent;
-        -webkit-transform: skew(0,30deg);
-           -moz-transform: skew(0,30deg);
-             -o-transform: skew(0,30deg);
-      }
-
-      .header {
-        margin: 0;
-        font-size: 2em;
-        line-height: 1;
-      }
-
-      .header-logo {
-        height: 1.5em;
-        float: left;
-        margin: -0.25em 0.5em 0 0;
-      }
-
-      .content {
-        position: absolute;
-        top: auto;
-        right: 50%;
-        bottom: 1em;
-        left: 1em;
-        padding: 0.75rem;
-        background-color: rgba(255,255,255,0.8);
-        box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
-        line-height: 1.5;
-      }
-
-      .button {
-        display: inline-block;
-        padding: .85em 1em;
-        -webkit-appearance: none;
-        line-height: 1;
-        text-align: center;
-        cursor: pointer;
-        background-color: #ae561f;
-        color: #fefefe;
-        font-size: 12pt;
-        text-decoration: none;
-        border-radius: 2pt;
-        box-shadow: 3pt 3px 0 0 rgba(0,0,0,0.1);
-      }
-      .button:hover {
-        background-color: #9d450e;
-      }
-
-      @media screen and (min-width: 350mm) {
-        .instructions {
-          /* background-color: pink; */
-          width: 70mm;
-          float: left;
-          margin-left: calc(50vw - 140mm - 35mm);
-        }|
-      }
-
-      .instructions-step {
-        margin: 8mm 0;
-      }
-
-      .instructions-step strong {
-        display: block;
-        margin-bottom: 0.25em;
-        font-size: 12pt;
-      }
-
-      .step-number {
-        float: left;
-        min-width: 1em;
-        padding: 0.3em;
-        border-radius: 50%;
-        font-size: 1.5em;
-        line-height: 1;
-        text-align: center;
-        background: SteelBlue;
-        color: #fefefe;
-        margin: 0 9pt 9pt;
-      }
-
-      .mapboxgl-ctrl-attrib {
-        font-size: 7pt;
-      }
-
-      @media print {
-        .instructions,
-        .mapboxgl-ctrl-top-left {
-          display: none;
-        }
-      }
-
-      @media screen and (max-width: 300mm) {
-        .sheet {
-          transform: scale(0.7);
-          transform-origin: 10vw 0;
-        }
-      }
-
-      @media screen and (max-width: 200mm) {
-        .sheet {
-          transform: scale(0.5);
-          transform-origin: 10vw 0;
-        }
-      }
-
-      /* Chrome & Safari can force the content/attributions backgrounds to use transparency */
-      .content, .mapboxgl-ctrl-attrib {
-        -webkit-print-color-adjust: exact;
-      }
-
-    </style>
+    <link rel="stylesheet" href="/css/styles.css">
   </head>
   <body class="letter landscape">
     <div class="instructions">
-  <p class="instructions-step">
-    <span class="step-number">1</span>
-    <strong>Choose an orientation</strong>
-    <label><input onclick="toggleLandscape()" type="radio" name="gender" value="male"> Portrait</label>
-    <label><input onclick="toggleLandscape()" type="radio" name="gender" value="female" checked> Landscape</label>
-  </p>
-  <p class="instructions-step">
-    <span class="step-number">2</span>
-    <strong>Position the map</strong>
-    You can adjust the map's pan and zoom.
-  </p>
-  <p class="instructions-step">
-    <span class="step-number">3</span>
-    <strong>Edit the map title</strong>
-    Click the map title to edit the text.
-  </p>
-  <p class="instructions-step">
-    <span class="step-number">4</span>
-    <a class="button" href="javascript:window.print()">PRINT</a>
-  </p>
-</div>
-
-<section class="sheet padding-10mm">
-  <div class="container">
-    <h1 class="header">
-      <img src="https://raw.githubusercontent.com/NYCPlanning/logo/master/dcp_logo_772.png" alt="logo" class="header-logo">
-      <span contenteditable="true">{{#if title}}{{title}}{{else}}Map Title{{/if}}</span>
-    </h1>
-    <div id="map">
-      <div id="north-arrow" style="transform:rotate(0deg);"><span class="n">N</span></div>
+      <p class="instructions-step">
+        <span class="step-number">1</span>
+        <strong>Choose an orientation</strong>
+        <label><input onclick="toggleLandscape()" type="radio" name="gender" value="male" /> Portrait</label>
+        <label><input onclick="toggleLandscape()" type="radio" name="gender" value="female" checked /> Landscape</label>
+      </p>
+      <p class="instructions-step">
+        <span class="step-number">2</span>
+        <strong>Position the map</strong>
+        You can adjust the map's pan and zoom.
+      </p>
+      <p class="instructions-step">
+        <span class="step-number">3</span>
+        <strong>Edit the map title</strong>
+        Click the map title to edit the text.
+      </p>
+      <p class="instructions-step">
+        <span class="step-number">4</span>
+        <a class="button" href="javascript:window.print()">PRINT</a>
+      </p>
     </div>
-    {{#if content}}<div class="content">{{content}}</div>{{/if}}
-  </div>
-</section>
+    <div id="react-container"></div>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
+    <script src="https://fb.me/react-15.0.0.js"></script>
+    <script src="https://fb.me/react-dom-15.0.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script>
+      var MapPrinter;
+    </script>
+    <script type="text/babel" src="components/map-printer.jsx"></script>
+    <script type="text/babel">
+      ReactDOM.render(
+      <MapPrinter/>,
+      document.getElementById('react-container')
+      );
+    </script>
+    <script>
 
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
-<script>
+      function toggleLandscape() {
+        var element = document.body;
+        element.classList.toggle('landscape');
 
-fetch('http://localhost:3000/config', {
-  credentials: 'include'
-})
-  .then(d => d.json())
-  .then((config) => {
-    setupLayout(config)
-  })
+        // Trigger window resize to resize the map
+        var evt = document.createEvent('UIEvents');
+        evt.initUIEvent('resize', true, false, window, 0);
+        window.dispatchEvent(evt);
+      }
 
-function setupLayout(config) {
-  const { style, center, zoom, bearing, pitch } = config;
-  const map = new mapboxgl.Map({
-    container: 'map',
-    style,
-    center,
-    zoom,
-    bearing,
-    pitch,
-  });
-
-  const nav = new mapboxgl.NavigationControl();
-  map.addControl(nav, 'top-left');
-
-  const scale = new mapboxgl.ScaleControl();
-  map.addControl(scale, 'bottom-right');
-
-}
-
-
-
-function toggleLandscape() {
-  var element = document.body;
-  element.classList.toggle('landscape');
-
-  // Trigger window resize to resize the map
-  var evt = document.createEvent('UIEvents');
-  evt.initUIEvent('resize', true, false, window, 0);
-  window.dispatchEvent(evt);
-}
-
-</script>
-</body>
+    </script>
+  </body>
 </html>

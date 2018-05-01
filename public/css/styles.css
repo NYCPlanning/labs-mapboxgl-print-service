@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>NYC Planning Map Printer</title>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
-    <style>
 
       /* paper.css https://github.com/cognitom/paper-css/blob/master/paper.css */
       @page { margin: 0 }
@@ -242,10 +236,3 @@
       .content, .mapboxgl-ctrl-attrib {
         -webkit-print-color-adjust: exact;
       }
-
-    </style>
-  </head>
-  <body class="letter landscape">
-    {{{body}}}
-  </body>
-</html>

@@ -15,18 +15,16 @@ let defaults = {
 }
 
 
-/* POST to render a map */
+/* POST /config */
 router.post('/', function(req, res, next) {
   const { style, center, zoom, bearing, pitch, title, content } = req.body;
 
   req.session.config = req.body;
   res.json({status: 'success'});
-  console.log(req.sessionID)
 });
 
-/* GET for testing and development */
+/* GET /config */
 router.get('/', function(req, res, next) {
-  console.log(req.sessionID)
   if (req.session.config) {
     res.json(req.session.config);
   } else {
