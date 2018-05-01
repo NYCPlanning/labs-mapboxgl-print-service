@@ -13,7 +13,8 @@ var app = express();
 
 // allows CORS
 app.all('*', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
   next();
@@ -34,15 +35,12 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     secret: 'keyboard cat',
-    cookie: {
-      secure: false,
-    }
 }))
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.use(function (req, res, next) {
-  console.log('LOGGED', req.sessionID)
+  console.log('LOGGED', req.headers)
   next()
 })
 
