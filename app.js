@@ -40,7 +40,6 @@ app.use(session({
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.use(function (req, res, next) {
-  console.log('LOGGED', req.headers)
   next()
 })
 
