@@ -85,7 +85,7 @@
       #north-arrow {
         position: absolute;
         top: 16pt;
-        right: 16pt;
+        left: 16pt;
         z-index: 2;
         width: 16pt;
         height: 16pt;
@@ -229,20 +229,45 @@
         line-height: 1.5;
       }
 
+      /* Legends */
       .legend {
+        font-size: 7pt;
         position: absolute;
-        top: auto;
-        right: 1em;
-        left: 80%;
-        bottom: 5em;
-        padding: 0.75rem;
+        z-index: 2;
+        top: 10px;
+        right: 10px;
+        bottom: auto;
+        left: auto;
+        max-width: 25%;
         background-color: rgba(255,255,255,0.8);
         box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
-        line-height: 1.5;
+        line-height: 1.2;
       }
 
-      .legend h3 {
-        margin-top: 0;
+      .legend-header {
+        padding: 4pt;
+        margin: 0;
+      }
+
+      .legend-section-header {
+        margin: 0 0 4pt;
+      }
+
+      .legend-section {
+        padding: 4pt;
+        border-top: 1px solid #ddd;
+      }
+
+      .legend-item + .legend-item {
+        margin-top: 4pt;
+      }
+
+      .legend-item svg {
+        height: 1.5em;
+        width: auto;
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 0.5em 0 0;
       }
 
       .button {
@@ -261,6 +286,14 @@
       }
       .button:hover {
         background-color: #9d450e;
+      }
+
+      .mapboxgl-ctrl-top-left {
+        opacity: 0;
+        transition: all 0.1s;
+      }
+      #map:hover .mapboxgl-ctrl-top-left {
+        opacity: 1;
       }
 
       @media screen and (min-width: 350mm) {

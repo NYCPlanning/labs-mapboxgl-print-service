@@ -77,6 +77,101 @@
         title: 'This is a test title',
         subtitle: 'This is a test subtitle',
         content: 'This is a test string for the content field',
+        legendConfig: [
+          {
+            label: 'Section 1',
+            items: [
+              {
+                type: 'area',
+                label: 'Commercial Overlays',
+                style: {
+                  fill: 'none',
+                  stroke: '#ff0000',
+                },
+              },
+              {
+                type: 'area',
+                label: 'Bar Areas',
+                style: {
+                  fill: '#3CFF33',
+                  stroke: '#cdcdcd',
+                },
+              },
+              {
+                type: 'point',
+                label: 'Fizz Points',
+                style: {
+                  fill: '#3333FF',
+                  stroke: '#7DFF33',
+                },
+              },
+            ],
+          },
+          {
+            label: 'Section 2',
+            items: [
+              {
+                type: 'area',
+                label: 'Foo Areas',
+                style: {
+                  fill: '#33C4FF',
+                  stroke: '#cdcdcd',
+                },
+              },
+              {
+                type: 'area',
+                label: 'Bar Areas',
+                style: {
+                  fill: '#3CFF33',
+                  stroke: '#cdcdcd',
+                },
+              },
+              {
+                type: 'line',
+                label: 'Mapped Street',
+                style: {
+                  fill: 'none',
+                  stroke: '#000',
+                },
+              },
+              {
+                type: 'line',
+                label: 'Record Street',
+                style: {
+                  fill: 'none',
+                  stroke: '#000',
+                  strokeWidth: '1',
+                  strokeDasharray: '3, 1.5',
+                },
+              },
+            ],
+          },
+          {
+            label: 'Pierhead and Bulkhead Lines',
+            items: [
+              {
+                type: 'line',
+                label: 'Pierhead Lines',
+                style: {
+                  fill: 'none',
+                  stroke: '#3278C8',
+                  strokeLinecap: 'round',
+                  strokeDasharray: '5,2.5,0,2,0,2.5',
+                },
+              },
+              {
+                type: 'line',
+                label: 'Bulkhead Lines',
+                style: {
+                  fill: 'none',
+                  stroke: '#3278C8',
+                  strokeLinecap: 'round',
+                  strokeDasharray: '5,2,0,1.5,0,1.5,0,2',
+                },
+              },
+            ],
+          },
+        ],
       }),
     })
       .then(res => res.json())

@@ -22,42 +22,6 @@ class WrappedAutosizeInput extends React.Component {
   }
 }
 
-const Legend = (props) => {
-  const sections = props.config;
-
-  return (
-    <div className="legend">
-      <h3>Legend</h3>
-      {/* render sections */}
-      {sections.map((section) => {
-        const { label, items } = section;
-
-        return (
-          <div key={label}>
-            <h4>{label}</h4>
-
-            {/* render legendItems */}
-            {items.map((item) => {
-              const { type, label: itemLabel, style } = item;
-              const { fill, stroke = '#cdcdcd', strokeWidth = 1 } = style;
-
-              return (
-                <div key={itemLabel}>
-                  <svg width="16" height="16">
-                    {(type === 'area') && <rect width="14" height="14" fill={fill} stroke={stroke} strokeWidth={strokeWidth} />}
-                    {(type === 'point') && <circle cx="7" cy="7" r="7" fill={fill} stroke={stroke} strokeWidth={strokeWidth} />}
-                  </svg>
-                  {itemLabel}
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
 class MapPrinter extends React.Component {
   constructor(props) {
     super(props);
@@ -68,6 +32,7 @@ class MapPrinter extends React.Component {
       content: '',
       source: '',
       bearing: 0,
+      legendConfig: null,
     };
   }
 
@@ -89,6 +54,7 @@ class MapPrinter extends React.Component {
       subtitle,
       source,
       content,
+      legendConfig
     } = config;
 
     const {
@@ -125,6 +91,7 @@ class MapPrinter extends React.Component {
       source,
       bearing,
       content,
+      legendConfig,
     });
   }
 
@@ -142,68 +109,8 @@ class MapPrinter extends React.Component {
       content,
       bearing,
       source,
+      legendConfig,
     } = this.state;
-
-    const legendConfig = [
-      {
-        label: 'Section 1',
-        items: [
-          {
-            type: 'area',
-            label: 'Foo Areas',
-            style: {
-              fill: '#33C4FF',
-              stroke: '#cdcdcd',
-            },
-          },
-          {
-            type: 'area',
-            label: 'Bar Areas',
-            style: {
-              fill: '#3CFF33',
-              stroke: '#cdcdcd',
-            },
-          },
-          {
-            type: 'point',
-            label: 'Fizz Points',
-            style: {
-              fill: '#3333FF',
-              stroke: '#7DFF33',
-            },
-          },
-        ],
-      },
-      {
-        label: 'Section 2',
-        items: [
-          {
-            type: 'area',
-            label: 'Foo Areas',
-            style: {
-              fill: '#33C4FF',
-              stroke: '#cdcdcd',
-            },
-          },
-          {
-            type: 'area',
-            label: 'Bar Areas',
-            style: {
-              fill: '#3CFF33',
-              stroke: '#cdcdcd',
-            },
-          },
-          {
-            type: 'point',
-            label: 'Fizz Points',
-            style: {
-              fill: '#3333FF',
-              stroke: '#7DFF33',
-            },
-          },
-        ],
-      },
-    ];
 
     const transform = `rotate(${360 - bearing}deg)`;
 
@@ -237,13 +144,12 @@ class MapPrinter extends React.Component {
             </header>
             <div id="map">
               <div id="north-arrow" style={{ transform }}><span className="n">N</span></div>
+              {legendConfig && <Legend config={legendConfig} /> }
             </div>
-
             <div className="content">
               {content}
             </div>
             <div className="source">{source}</div>
-            <Legend config={legendConfig} />
           </div>
         </section>
       </div>
