@@ -1,45 +1,62 @@
-const FaIcon = props => {
+const FaIcon = (props) => {
   const weight = props.weight ? props.weight : 'r';
   const iconClass = `fa${weight} fa-${props.icon}`;
-  return <i className={iconClass}/>
-}
+  return <i className={iconClass} />;
+};
 
-class Legend extends React.Component {
+class WrappedAutosizeInput extends React.Component {
+  handleChange = (e) => {
+    const { id } = this.props;
+    const { value } = e.target;
+    this.props.onChange(id, value);
+  }
+
   render() {
-    const sections = this.props.config;
-
+    const { value } = this.props;
     return (
-      <div className="legend">
-        <h3>Legend</h3>
-          {sections.map((section, i) => {
-            const { label, items } = section;
-
-            return (
-              <div key={label}>
-                <h4>{label}</h4>
-
-                {items.map((item) => {
-                  const { type, label, style } = item;
-                  const { fill, stroke='#cdcdcd', strokeWidth=1} = style;
-
-                  return (
-                    <div key={label}>
-                      <svg width="16" height="16">
-                        {(type === 'area') && <rect width="14" height="14" fill={fill} stroke={stroke} strokeWidth={strokeWidth} />}
-                        {(type === 'point') && <circle cx="7" cy="7" r="7" fill={fill} stroke={stroke} strokeWidth={strokeWidth} />}
-                      </svg>
-                      {label}
-                    </div>
-                  );
-                })}
-              </div>
-
-            )
-          })}
-      </div>
-    )
+      <AutosizeInput
+        value={value}
+        onChange={this.handleChange}
+      />
+    );
   }
 }
+
+const Legend = (props) => {
+  const sections = props.config;
+
+  return (
+    <div className="legend">
+      <h3>Legend</h3>
+      {/* render sections */}
+      {sections.map((section) => {
+        const { label, items } = section;
+
+        return (
+          <div key={label}>
+            <h4>{label}</h4>
+
+            {/* render legendItems */}
+            {items.map((item) => {
+              const { type, label: itemLabel, style } = item;
+              const { fill, stroke = '#cdcdcd', strokeWidth = 1 } = style;
+
+              return (
+                <div key={itemLabel}>
+                  <svg width="16" height="16">
+                    {(type === 'area') && <rect width="14" height="14" fill={fill} stroke={stroke} strokeWidth={strokeWidth} />}
+                    {(type === 'point') && <circle cx="7" cy="7" r="7" fill={fill} stroke={stroke} strokeWidth={strokeWidth} />}
+                  </svg>
+                  {itemLabel}
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 class MapPrinter extends React.Component {
   constructor(props) {
@@ -54,9 +71,33 @@ class MapPrinter extends React.Component {
     };
   }
 
+  componentDidMount() {
+    fetch('http://localhost:3000/config', {
+      credentials: 'include',
+    })
+      .then(d => d.json())
+      .then((config) => {
+        this.setupLayout(config);
+      });
+  }
+
   setupLayout(config) {
-    const { mapConfig, logo, title, subtitle, source, content } = config;
-    const { style, center, zoom, bearing, pitch } = mapConfig;
+    const {
+      mapConfig,
+      logo,
+      title,
+      subtitle,
+      source,
+      content,
+    } = config;
+
+    const {
+      style,
+      center,
+      zoom,
+      bearing,
+      pitch,
+    } = mapConfig;
 
     const map = new mapboxgl.Map({
       container: 'map',
@@ -68,8 +109,7 @@ class MapPrinter extends React.Component {
     });
 
     map.on('rotate', () => {
-      const bearing = map.getBearing();
-      this.setState({ bearing });
+      this.setState({ bearing: map.getBearing() });
     });
 
     const nav = new mapboxgl.NavigationControl();
@@ -84,28 +124,25 @@ class MapPrinter extends React.Component {
       subtitle,
       source,
       bearing,
-      content
+      content,
     });
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3000/config', {
-      credentials: 'include'
-    })
-      .then(d => d.json())
-      .then((config) => {
-        this.setupLayout(config)
-      })
-  }
-
-  handleInputChange(property, e) {
-    var obj = {};
-    obj[property]= e.target.value;
+  handleInputChange = (id, value) => {
+    const obj = {};
+    obj[id] = value;
     this.setState(obj);
   }
 
   render() {
-    const { logo, title, subtitle, content, bearing, source } = this.state;
+    const {
+      logo,
+      title,
+      subtitle,
+      content,
+      bearing,
+      source,
+    } = this.state;
 
     const legendConfig = [
       {
@@ -134,8 +171,8 @@ class MapPrinter extends React.Component {
               fill: '#3333FF',
               stroke: '#7DFF33',
             },
-          }
-        ]
+          },
+        ],
       },
       {
         label: 'Section 2',
@@ -163,14 +200,14 @@ class MapPrinter extends React.Component {
               fill: '#3333FF',
               stroke: '#7DFF33',
             },
-          }
-        ]
-      }
+          },
+        ],
+      },
     ];
 
     const transform = `rotate(${360 - bearing}deg)`;
 
-    const handleChange = this.handleChange;
+    const { handleChange } = this;
 
     return (
       <div id="map-printer">
@@ -180,16 +217,18 @@ class MapPrinter extends React.Component {
               <img src={logo} alt="logo" className="header-logo" />
               <div className="header-text no-sub clearfix">
                 <span className="title">
-                  <AutosizeInput
+                  <WrappedAutosizeInput
                     value={title}
-                    onChange={ this.handleInputChange.bind(this, 'title') }
+                    id="title"
+                    onChange={this.handleInputChange}
                   />
                   <FaIcon icon="edit" />
                 </span>
                 <span className="subtitle">
-                  <AutosizeInput
+                  <WrappedAutosizeInput
                     value={subtitle}
-                    onChange={ this.handleInputChange.bind(this, 'subtitle') }
+                    id="subtitle"
+                    onChange={this.handleInputChange}
                   />
                   <FaIcon icon="edit" />
                   <FaIcon weight="s" icon="times" />
@@ -204,10 +243,10 @@ class MapPrinter extends React.Component {
               {content}
             </div>
             <div className="source">{source}</div>
-            <Legend config={legendConfig}/>
+            <Legend config={legendConfig} />
           </div>
         </section>
       </div>
     );
   }
-};
+}
