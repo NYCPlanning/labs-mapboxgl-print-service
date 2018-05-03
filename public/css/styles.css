@@ -182,6 +182,9 @@
         margin: -0.25em 0 0;
         font-weight: bold;
       }
+      .header-text.no-subtitle .title {
+        margin-top: 1em;
+      }
 
       .subtitle input {
         font-size: 1.375em;
@@ -204,6 +207,25 @@
       .subtitle:hover .fa-edit,
       .subtitle:hover .fa-times {
         opacity: 1;
+      }
+
+      .unstyled-button {
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        overflow: visible;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        line-height: normal;
+        -webkit-font-smoothing: inherit;
+        -moz-osx-font-smoothing: inherit;
+        -webkit-appearance: none;
+      }
+      .unstyled-button::-moz-focus-inner {
+          border: 0;
+          padding: 0;
       }
 
       .content {
@@ -277,13 +299,25 @@
         background-color: #9d450e;
       }
 
-      .mapboxgl-ctrl-top-left {
+      .button--add-subtitle {
+        color: #559955;
+        font-size: 8pt;
+        cursor: pointer;
+      }
+
+
+      /* Show/hide UI elements on sheet hover */
+
+      .mapboxgl-ctrl-top-left,
+      .hidden-controls {
         opacity: 0;
         transition: all 0.1s;
       }
-      #map:hover .mapboxgl-ctrl-top-left {
+      .sheet:hover .mapboxgl-ctrl-top-left,
+      .sheet:hover .hidden-controls {
         opacity: 1;
       }
+
 
       @media screen and (min-width: 350mm) {
         .instructions {

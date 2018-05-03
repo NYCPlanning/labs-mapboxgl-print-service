@@ -19,6 +19,7 @@ class WrappedAutosizeInput extends React.Component {
         value={value}
         onChange={this.handleChange}
         injectStyles={false}
+        onFocus={(e) => { e.target.select(); }}
       />
     );
   }
@@ -54,7 +55,7 @@ class MapPrinter extends React.Component {
       mapConfig,
       title,
       logo = '',
-      subtitle = '',
+      subtitle = null,
       source = '',
       content = '',
       legendConfig = null,
@@ -104,6 +105,15 @@ class MapPrinter extends React.Component {
     this.setState(obj);
   }
 
+  hideSubtitle = () => {
+    this.setState({ subtitle: null });
+  }
+
+  showSubtitle = () => {
+    this.setState({ subtitle: 'Subtitle' });
+
+  }
+
   render() {
     const {
       logo,
@@ -125,24 +135,36 @@ class MapPrinter extends React.Component {
           <div className="container">
             <header className="header">
               {logo && <img src={logo} alt="logo" className="header-logo" />}
-              <div className="header-text no-sub clearfix">
-                <label className="title">
-                  <WrappedAutosizeInput
-                    value={title}
-                    id="title"
-                    onChange={this.handleInputChange}
-                  />
-                  <FaIcon icon="edit" />
-                </label>
-                <label className="subtitle">
-                  <WrappedAutosizeInput
-                    value={subtitle}
-                    id="subtitle"
-                    onChange={this.handleInputChange}
-                  />
-                  <FaIcon icon="edit" />
-                  <FaIcon weight="s" icon="times" />
-                </label>
+              <div className={subtitle === null ? 'header-text no-subtitle clearfix' : 'header-text clearfix'}>
+                <span className="title">
+                  <label>
+                    <WrappedAutosizeInput
+                      value={title}
+                      id="title"
+                      onChange={this.handleInputChange}
+                    />
+                    <FaIcon icon="edit" />
+                  </label>
+                </span>
+                {subtitle !== null ? (
+                  <span className="subtitle">
+                    <label>
+                      <WrappedAutosizeInput
+                        value={subtitle}
+                        id="subtitle"
+                        onChange={this.handleInputChange}
+                      />
+                      <FaIcon icon="edit" />
+                    </label>
+                    <button className="unstyled-button" onClick={this.hideSubtitle}><FaIcon weight="s" icon="times" /></button>
+                  </span>
+                ) : (
+                  <div className="hidden-controls">
+                    <button className="unstyled-button button--add-subtitle" onClick={this.showSubtitle}>
+                      <FaIcon weight="s" icon="plus-square" />&nbsp;Add Subtitle
+                    </button>
+                  </div>
+                )}
               </div>
             </header>
             <div id="map">
