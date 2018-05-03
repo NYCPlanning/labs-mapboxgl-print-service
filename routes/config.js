@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { Validator, ValidationError } = require('express-json-validator-middleware');
 const router = express.Router();
 
 const defaultConfig = {
@@ -16,9 +16,61 @@ const defaultConfig = {
   content: '',
 };
 
+// Initialize a Validator instance first
+const validator = new Validator({allErrors: true}); // pass in options to the Ajv instance
+
+// Define a shortcut function
+const validate = validator.validate;
+
+// Define a JSON Schema
+const PrintSchema = {
+  type: 'object',
+  required: ['title', 'mapConfig'],
+  properties: {
+    title: {
+      type: 'string',
+    },
+    mapConfig: {
+      type: 'object',
+      required: ['style', 'center', 'zoom'],
+      properties: {
+        style: {
+          type: 'object',
+        },
+        center: {
+          type: 'object',
+          properties: {
+            lng: {
+              type: 'number',
+            },
+            lat: {
+              type: 'number',
+            },
+          }
+        },
+        zoom: {
+          type: 'number',
+        },
+        bearing: {
+          type: 'number',
+        },
+        pitch: {
+          type: 'number',
+        },
+      }
+    },
+    content: {
+      type: 'string',
+    },
+    legendConfig: {
+      type: 'array',
+    },
+  }
+}
 
 /* POST /config */
-router.post('/', (req, res, next) => {
+router.post('/', validate({body: PrintSchema}), (req, res, next) => {
+  console.log(req);
   const {
     style, center, zoom, bearing, pitch, title, content, legendConfig
   } = req.body;

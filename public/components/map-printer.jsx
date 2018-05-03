@@ -15,7 +15,7 @@ class WrappedAutosizeInput extends React.Component {
     const { value } = this.props;
     return (
       <AutosizeInput
-        type='text'
+        type="text"
         value={value}
         onChange={this.handleChange}
         injectStyles={false}
@@ -28,11 +28,11 @@ class MapPrinter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      logo: '',
-      title: 'My Map',
+      logo: null,
+      title: '',
       subtitle: '',
-      content: '',
-      source: '',
+      content: null,
+      source: null,
       bearing: 0,
       legendConfig: null,
     };
@@ -49,22 +49,23 @@ class MapPrinter extends React.Component {
   }
 
   setupLayout(config) {
+    // set defaults for non-required properties
     const {
       mapConfig,
-      logo,
       title,
-      subtitle,
-      source,
-      content,
-      legendConfig
+      logo = '',
+      subtitle = '',
+      source = '',
+      content = '',
+      legendConfig = null,
     } = config;
 
     const {
       style,
       center,
       zoom,
-      bearing,
-      pitch,
+      bearing = null,
+      pitch = null,
     } = mapConfig;
 
     const map = new mapboxgl.Map({
@@ -123,7 +124,7 @@ class MapPrinter extends React.Component {
         <section className="sheet padding-10mm">
           <div className="container">
             <header className="header">
-              <img src={logo} alt="logo" className="header-logo" />
+              {logo && <img src={logo} alt="logo" className="header-logo" />}
               <div className="header-text no-sub clearfix">
                 <label className="title">
                   <WrappedAutosizeInput
@@ -148,10 +149,8 @@ class MapPrinter extends React.Component {
               <div id="north-arrow" style={{ transform }}><span className="n">N</span></div>
               {legendConfig && <Legend config={legendConfig} /> }
             </div>
-            <div className="content">
-              {content}
-            </div>
-            <div className="source">{source}</div>
+            {content && <div className="content">{content}</div>}
+            {source && <div className="source">{source}</div>}
           </div>
         </section>
       </div>

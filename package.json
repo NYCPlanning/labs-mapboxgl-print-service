@@ -11,6 +11,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "express-json-validator-middleware": "^1.2.3",
     "express-session": "^1.15.6",
     "hbs": "~4.0.1",
     "memorystore": "^1.6.0",
