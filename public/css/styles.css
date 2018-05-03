@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>NYC Planning Map Printer</title>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
-    <style>
 
       /* paper.css https://github.com/cognitom/paper-css/blob/master/paper.css */
       @page { margin: 0 }
@@ -62,6 +56,16 @@
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       }
 
+      .clearfix::before,
+      .clearfix::after {
+        display: table;
+        content: ' ';
+      }
+
+      .clearfix::after {
+        clear: both;
+      }
+
       .container {
         width: 100%;
         height: 100%;
@@ -74,14 +78,14 @@
         right: 0;
         bottom: 0;
         left: 0;
-        margin-top: 3.5em;
+        margin-top: 4.75em;
         font-size: inherit;
       }
 
       #north-arrow {
         position: absolute;
-        top: 16pt;
-        right: 16pt;
+        top: calc(16pt + 4.75em);
+        left: 16pt;
         z-index: 2;
         width: 16pt;
         height: 16pt;
@@ -141,27 +145,178 @@
 
       .header {
         margin: 0;
-        font-size: 2em;
         line-height: 1;
       }
 
       .header-logo {
-        height: 1.5em;
+        height: 3.5em;
         float: left;
-        margin: -0.25em 0.5em 0 0;
+        margin: 0 0.75em 0 0;
       }
 
-      .content {
+      .header-text { float: left; }
+      .title { float: left; }
+      .subtitle-container { clear: left; float: left; }
+      .subtitle { float: left; }
+
+      .title input {
+        font-size: 2em;
+        margin: -0.25em 0 0;
+        font-weight: bold;
+      }
+      .header-text.no-subtitle .title {
+        margin-top: 1em;
+      }
+
+      .subtitle input {
+        font-size: 1.375em;
+        margin: 0;
+        font-weight: normal;
+      }
+
+      .fa-edit {  color: #559955; }
+      .fa-times { color: #dd4444; }
+
+      .fa-edit,
+      .fa-times {
+        margin: 0 0 0 0.5em;
+        cursor: pointer;
+      }
+
+      .toggleable-element {
+        position: relative;
+      }
+      .button--hide {
+        position: absolute;
+        top: 0;
+        left: 100%;
+      }
+      .legend-container .button--hide {
+        left: auto;
+        right: 100%;
+        margin-right: 0.5em;
+      }
+      .button--show {
+        font-size: 7pt;
+      }
+
+      .unstyled-button {
+        cursor: pointer;
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        overflow: visible;
+        background: transparent;
+        color: inherit;
+        font-family: inherit;
+        line-height: normal;
+        -webkit-font-smoothing: inherit;
+        -moz-osx-font-smoothing: inherit;
+        -webkit-appearance: none;
+      }
+      .unstyled-button::-moz-focus-inner {
+          border: 0;
+          padding: 0;
+      }
+
+      .content-container {
         position: absolute;
         top: auto;
         right: 50%;
-        bottom: 1em;
+        bottom: calc(1em + 12pt);
         left: 1em;
+      }
+      .content {
         padding: 0.75rem;
         background-color: rgba(255,255,255,0.8);
         box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
         line-height: 1.5;
       }
+
+      .source-container {
+        position: absolute;
+        top: auto;
+        right: auto;
+        bottom: 0;
+        left: 0;
+      }
+      .source {
+        line-height: 1.2;
+        padding: 5px;
+        /* background-color: rgba(255, 255, 255, .5); */
+      }
+      .source input {
+        font-size: 7pt;
+        background-color: rgba(255, 255, 255, .5) !important;
+        box-shadow: 0 0 0 5px rgba(255, 255, 255, .5);
+      }
+      /* .source .fa-edit {
+        left: 100%;
+        bottom: 5pt;
+        margin-left: 0;
+        padding-left: 0.25em;
+      } */
+
+      /* Legends */
+      .legend-container {
+        position: absolute;
+        z-index: 2;
+        top: calc(10px + 4.75em);
+        right: 10px;
+        bottom: auto;
+        left: auto;
+        max-width: 25%;
+      }
+      .legend {
+        font-size: 7pt;
+        background-color: rgba(255,255,255,0.8);
+        box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
+        line-height: 1.2;
+      }
+
+      .legend-header {
+        padding: 4pt;
+        margin: 0;
+      }
+
+      .legend-section-header {
+        margin: 0 0 4pt;
+      }
+
+      .legend-section {
+        padding: 4pt;
+        border-top: 1px solid #ddd;
+      }
+
+      .legend-item + .legend-item {
+        margin-top: 4pt;
+      }
+
+      .legend-item svg {
+        height: 1.5em;
+        width: auto;
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 0.5em 0 0;
+      }
+
+      input[type=text] {
+        max-width: 100% !important;
+        border: 1px solid transparent;
+        background-color: transparent;
+        padding: 0;
+        min-width: 2em;
+        -webkit-appearance: none;
+           -moz-appearance: none;
+                appearance: none;
+      }
+      :hover > input,
+      input:focus {
+        border-bottom: 1px solid #bbb;
+      }
+      input:focus,
+      input:focus { outline: 0; }
 
       .button {
         display: inline-block;
@@ -180,6 +335,27 @@
       .button:hover {
         background-color: #9d450e;
       }
+
+      .fa-plus-square {
+        color: #559955;
+      }
+
+
+      .mapboxgl-ctrl-top-left {
+        margin-top: 40pt;
+        margin-left: 6pt;
+      }
+
+      .mapboxgl-ctrl-top-left,
+      .hidden-control {
+        opacity: 0;
+        transition: all 0.1s;
+      }
+      .sheet:hover .mapboxgl-ctrl-top-left,
+      .sheet:hover .hidden-control {
+        opacity: 1;
+      }
+
 
       @media screen and (min-width: 350mm) {
         .instructions {
@@ -242,10 +418,3 @@
       .content, .mapboxgl-ctrl-attrib {
         -webkit-print-color-adjust: exact;
       }
-
-    </style>
-  </head>
-  <body class="letter landscape">
-    {{{body}}}
-  </body>
-</html>
