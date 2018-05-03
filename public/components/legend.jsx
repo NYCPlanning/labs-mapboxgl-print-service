@@ -1,5 +1,6 @@
 const Legend = (props) => {
   const sections = props.config;
+  if (sections === null) return (null);
 
   return (
     <div className="legend">

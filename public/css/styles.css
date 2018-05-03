@@ -76,7 +76,7 @@
         position: absolute;
         top: 0;
         right: 0;
-        bottom: 12pt;
+        bottom: 0;
         left: 0;
         margin-top: 4.75em;
         font-size: inherit;
@@ -84,7 +84,7 @@
 
       #north-arrow {
         position: absolute;
-        top: 16pt;
+        top: calc(16pt + 4.75em);
         left: 16pt;
         z-index: 2;
         width: 16pt;
@@ -156,7 +156,8 @@
 
       .header-text { float: left; }
       .title { float: left; }
-      .subtitle { clear: left; float: left; }
+      .subtitle-container { clear: left; float: left; }
+      .subtitle { float: left; }
 
       .title input {
         font-size: 2em;
@@ -182,7 +183,25 @@
         cursor: pointer;
       }
 
+      .toggleable-element {
+        position: relative;
+      }
+      .button--hide {
+        position: absolute;
+        top: 0;
+        left: 100%;
+      }
+      .legend-container .button--hide {
+        left: auto;
+        right: 100%;
+        margin-right: 0.5em;
+      }
+      .button--show {
+        font-size: 7pt;
+      }
+
       .unstyled-button {
+        cursor: pointer;
         border: none;
         margin: 0;
         padding: 0;
@@ -190,7 +209,7 @@
         overflow: visible;
         background: transparent;
         color: inherit;
-        font: inherit;
+        font-family: inherit;
         line-height: normal;
         -webkit-font-smoothing: inherit;
         -moz-osx-font-smoothing: inherit;
@@ -201,38 +220,56 @@
           padding: 0;
       }
 
-      .content {
+      .content-container {
         position: absolute;
         top: auto;
         right: 50%;
         bottom: calc(1em + 12pt);
         left: 1em;
+      }
+      .content {
         padding: 0.75rem;
         background-color: rgba(255,255,255,0.8);
         box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
         line-height: 1.5;
       }
 
-      .source {
+      .source-container {
         position: absolute;
         top: auto;
         right: auto;
         bottom: 0;
         left: 0;
-        line-height: 1.2;
-        font-size: 7pt;
       }
+      .source {
+        line-height: 1.2;
+        padding: 5px;
+        /* background-color: rgba(255, 255, 255, .5); */
+      }
+      .source input {
+        font-size: 7pt;
+        background-color: rgba(255, 255, 255, .5) !important;
+        box-shadow: 0 0 0 5px rgba(255, 255, 255, .5);
+      }
+      /* .source .fa-edit {
+        left: 100%;
+        bottom: 5pt;
+        margin-left: 0;
+        padding-left: 0.25em;
+      } */
 
       /* Legends */
-      .legend {
-        font-size: 7pt;
+      .legend-container {
         position: absolute;
         z-index: 2;
-        top: 10px;
+        top: calc(10px + 4.75em);
         right: 10px;
         bottom: auto;
         left: auto;
         max-width: 25%;
+      }
+      .legend {
+        font-size: 7pt;
         background-color: rgba(255,255,255,0.8);
         box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
         line-height: 1.2;
@@ -267,6 +304,7 @@
       input[type=text] {
         max-width: 100% !important;
         border: 1px solid transparent;
+        background-color: transparent;
         padding: 0;
         min-width: 2em;
         -webkit-appearance: none;
@@ -298,14 +336,15 @@
         background-color: #9d450e;
       }
 
-      .button--add-subtitle {
+      .fa-plus-square {
         color: #559955;
-        font-size: 8pt;
-        cursor: pointer;
       }
 
 
-      /* Show/hide UI elements on sheet hover */
+      .mapboxgl-ctrl-top-left {
+        margin-top: 40pt;
+        margin-left: 6pt;
+      }
 
       .mapboxgl-ctrl-top-left,
       .hidden-control {

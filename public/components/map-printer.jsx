@@ -36,6 +36,23 @@ const EditableTextInput = props => (
   </label>
 );
 
+const ToggleableElement = (props) => {
+  if (props.visible) {
+    return (
+      <div className="toggleable-element">
+        {props.children}
+        <button className="button--hide unstyled-button hidden-control" onClick={() => { props.onChange(props.id); }}><FaIcon weight="s" icon="times" /></button>
+      </div>
+    );
+  }
+
+  return (
+    <button className="button--show unstyled-button hidden-control" onClick={() => { props.onChange(props.id); }}>
+      <FaIcon weight="s" icon="plus-square" />&nbsp;{props.label}
+    </button>
+  );
+};
+
 class MapPrinter extends React.Component {
   constructor(props) {
     super(props);
@@ -43,10 +60,14 @@ class MapPrinter extends React.Component {
       logo: null,
       title: '',
       subtitle: '',
+      subtitleVisible: true,
       content: null,
+      contentVisible: true,
       source: '',
+      sourceVisible: true,
       bearing: 0,
       legendConfig: null,
+      legendVisible: true,
     };
   }
 
@@ -116,23 +137,34 @@ class MapPrinter extends React.Component {
     this.setState(obj);
   }
 
-  hideSubtitle = () => {
-    this.setState({ subtitle: null });
+  toggleVisibility = (id) => {
+    const visible = this.state[id];
+    const obj = {};
+    obj[id] = !visible;
+    this.setState(obj);
   }
 
-  showSubtitle = () => {
-    this.setState({ subtitle: 'Subtitle' });
-  }
+  // hideSubtitle = () => {
+  //   this.setState({ subtitleVisible: false });
+  // }
+  //
+  // showSubtitle = () => {
+  //   this.setState({ subtitleVisible: true });
+  // }
 
   render() {
     const {
       logo,
       title,
       subtitle,
+      subtitleVisible,
       content,
+      contentVisible,
       bearing,
       source,
+      sourceVisible,
       legendConfig,
+      legendVisible,
     } = this.state;
 
     const transform = `rotate(${360 - bearing}deg)`;
@@ -142,34 +174,67 @@ class MapPrinter extends React.Component {
       <div id="map-printer">
         <section className="sheet padding-10mm">
           <div className="container">
+
             <header className="header">
               {logo && <img src={logo} alt="logo" className="header-logo" />}
-              <div className={subtitle === null ? 'header-text no-subtitle clearfix' : 'header-text clearfix'}>
+              <div className={subtitleVisible ? 'header-text clearfix' : 'header-text clearfix no-subtitle'}>
                 <span className="title">
                   <EditableTextInput value={title} id="title" onChange={this.handleInputChange} />
                 </span>
-                {subtitle !== null ? (
-                  <span className="subtitle">
-                    <EditableTextInput value={subtitle} id="subtitle"  onChange={this.handleInputChange} />
-                    <button className="unstyled-button hidden-control" onClick={this.hideSubtitle}><FaIcon weight="s" icon="times" /></button>
-                  </span>
-                ) : (
-                  <div className="hidden-control">
-                    <button className="unstyled-button button--add-subtitle" onClick={this.showSubtitle}>
-                      <FaIcon weight="s" icon="plus-square" />&nbsp;Add Subtitle
-                    </button>
-                  </div>
-                )}
+                <div className="subtitle-container">
+                  <ToggleableElement
+                    id="subtitleVisible"
+                    visible={subtitleVisible}
+                    label="Add Subtitle"
+                    onChange={this.toggleVisibility}
+                  >
+                    <span className="subtitle">
+                      <EditableTextInput value={subtitle} id="subtitle" onChange={this.handleInputChange} />
+                    </span>
+                  </ToggleableElement>
+                </div>
               </div>
             </header>
-            <div id="map">
-              <div id="north-arrow" style={{ transform }}><span className="n">N</span></div>
-              {legendConfig && <Legend config={legendConfig} /> }
+
+            <div id="map" />
+
+            <div id="north-arrow" style={{ transform }}><span className="n">N</span></div>
+
+            <div className="legend-container">
+              <ToggleableElement
+                id="legendVisible"
+                visible={legendVisible}
+                label="Show Legend"
+                onChange={this.toggleVisibility}
+              >
+                <Legend config={legendConfig} />
+              </ToggleableElement>
             </div>
-            {content && <div className="content">{content}</div>}
-            <div className="source">
-              <EditableTextInput value={source} id="source" onChange={this.handleInputChange} />
+
+            <div className="content-container">
+              <ToggleableElement
+                id="contentVisible"
+                visible={contentVisible}
+                label="Show Content"
+                onChange={this.toggleVisibility}
+              >
+                <div className="content">{content}</div>
+              </ToggleableElement>
             </div>
+
+            <div className="source-container">
+              <ToggleableElement
+                id="sourceVisible"
+                visible={sourceVisible}
+                label="Add Source"
+                onChange={this.toggleVisibility}
+              >
+                <div className="source">
+                  <EditableTextInput value={source} id="source" onChange={this.handleInputChange} />
+                </div>
+              </ToggleableElement>
+            </div>
+
           </div>
         </section>
       </div>
