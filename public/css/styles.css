@@ -158,25 +158,6 @@
       .title { float: left; }
       .subtitle { clear: left; float: left; }
 
-      .header input[type=text] {
-        border: 1px solid transparent;
-        padding: 0;
-        min-width: 2em;
-        -webkit-appearance: none;
-           -moz-appearance: none;
-                appearance: none;
-      }
-
-      .title:hover input,
-      .subtitle:hover input,
-      .title input:focus,
-      .subtitle input:focus {
-        border-bottom: 1px solid #bbb;
-      }
-
-      .title input:focus,
-      .subtitle input:focus { outline: 0; }
-
       .title input {
         font-size: 2em;
         margin: -0.25em 0 0;
@@ -282,6 +263,22 @@
         vertical-align: top;
         margin: 0 0.5em 0 0;
       }
+
+      input[type=text] {
+        max-width: 100% !important;
+        border: 1px solid transparent;
+        padding: 0;
+        min-width: 2em;
+        -webkit-appearance: none;
+           -moz-appearance: none;
+                appearance: none;
+      }
+      :hover > input,
+      input:focus {
+        border-bottom: 1px solid #bbb;
+      }
+      input:focus,
+      input:focus { outline: 0; }
 
       .button {
         display: inline-block;

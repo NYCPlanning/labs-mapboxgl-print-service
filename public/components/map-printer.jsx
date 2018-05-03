@@ -6,9 +6,9 @@ const FaIcon = (props) => {
 
 class WrappedAutosizeInput extends React.Component {
   handleChange = (e) => {
-    const { id } = this.props;
+    const { id, onChange } = this.props;
     const { value } = e.target;
-    this.props.onChange(id, value);
+    onChange(id, value);
   }
 
   render() {
@@ -25,6 +25,17 @@ class WrappedAutosizeInput extends React.Component {
   }
 }
 
+const EditableTextInput = props => (
+  <label>
+    <WrappedAutosizeInput
+      value={props.value}
+      id={props.id}
+      onChange={props.onChange}
+    />
+    <FaIcon icon="edit" className="hidden-control" />
+  </label>
+);
+
 class MapPrinter extends React.Component {
   constructor(props) {
     super(props);
@@ -33,7 +44,7 @@ class MapPrinter extends React.Component {
       title: '',
       subtitle: '',
       content: null,
-      source: null,
+      source: '',
       bearing: 0,
       legendConfig: null,
     };
@@ -111,7 +122,6 @@ class MapPrinter extends React.Component {
 
   showSubtitle = () => {
     this.setState({ subtitle: 'Subtitle' });
-
   }
 
   render() {
@@ -127,7 +137,6 @@ class MapPrinter extends React.Component {
 
     const transform = `rotate(${360 - bearing}deg)`;
 
-    const { handleChange } = this;
 
     return (
       <div id="map-printer">
@@ -137,25 +146,11 @@ class MapPrinter extends React.Component {
               {logo && <img src={logo} alt="logo" className="header-logo" />}
               <div className={subtitle === null ? 'header-text no-subtitle clearfix' : 'header-text clearfix'}>
                 <span className="title">
-                  <label>
-                    <WrappedAutosizeInput
-                      value={title}
-                      id="title"
-                      onChange={this.handleInputChange}
-                    />
-                  <FaIcon icon="edit" className="hidden-control" />
-                  </label>
+                  <EditableTextInput value={title} id="title" onChange={this.handleInputChange} />
                 </span>
                 {subtitle !== null ? (
                   <span className="subtitle">
-                    <label>
-                      <WrappedAutosizeInput
-                        value={subtitle}
-                        id="subtitle"
-                        onChange={this.handleInputChange}
-                      />
-                      <FaIcon icon="edit" className="hidden-control" />
-                    </label>
+                    <EditableTextInput value={subtitle} id="subtitle"  onChange={this.handleInputChange} />
                     <button className="unstyled-button hidden-control" onClick={this.hideSubtitle}><FaIcon weight="s" icon="times" /></button>
                   </span>
                 ) : (
@@ -172,7 +167,9 @@ class MapPrinter extends React.Component {
               {legendConfig && <Legend config={legendConfig} /> }
             </div>
             {content && <div className="content">{content}</div>}
-            {source && <div className="source">{source}</div>}
+            <div className="source">
+              <EditableTextInput value={source} id="source" onChange={this.handleInputChange} />
+            </div>
           </div>
         </section>
       </div>
