@@ -149,32 +149,22 @@
       }
 
       .header-logo {
-        height: 3.75em;
+        height: 3.5em;
         float: left;
-        margin: 0 0.5em 0 0;
+        margin: 0 0.75em 0 0;
       }
 
-      .header-text {
-        float: left;
-      }
+      .header-text { float: left; }
+      .title { float: left; }
+      .subtitle { clear: left; float: left; }
 
-      .title {
-        float: left;
-        margin: -0.5em 0 0;
-      }
-
-      .subtitle {
-        clear: left;
-        float: left;
-      }
-
-      .title input,
-      .subtitle input {
-        font-size: inherit;
-        font-weight: inherit;
-        margin: 0;
+      .header input[type=text] {
         border: 1px solid transparent;
+        padding: 0;
         min-width: 2em;
+        -webkit-appearance: none;
+           -moz-appearance: none;
+                appearance: none;
       }
 
       .title:hover input,
@@ -185,13 +175,11 @@
       }
 
       .title input:focus,
-      .subtitle input:focus {
-        outline: 0;
-      }
+      .subtitle input:focus { outline: 0; }
 
       .title input {
         font-size: 2em;
-        margin: 0;
+        margin: -0.25em 0 0;
         font-weight: bold;
       }
 
@@ -201,19 +189,20 @@
         font-weight: normal;
       }
 
-      .fa-edit {
+      .fa-edit {  color: #559955; }
+      .fa-times { color: #dd4444; }
+
+      .fa-edit,
+      .fa-times {
         opacity: 0;
         transition: all 0.25s;
-        color: #888;
         margin: 0 0 0 0.5em;
-      }
-
-      .fa-times {
-        color: #cc2222;
+        cursor: pointer;
       }
 
       .title:hover .fa-edit,
-      .subtitle:hover .fa-edit {
+      .subtitle:hover .fa-edit,
+      .subtitle:hover .fa-times {
         opacity: 1;
       }
 

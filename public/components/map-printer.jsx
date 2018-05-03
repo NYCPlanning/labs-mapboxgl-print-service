@@ -15,8 +15,10 @@ class WrappedAutosizeInput extends React.Component {
     const { value } = this.props;
     return (
       <AutosizeInput
+        type='text'
         value={value}
         onChange={this.handleChange}
+        injectStyles={false}
       />
     );
   }
@@ -123,15 +125,15 @@ class MapPrinter extends React.Component {
             <header className="header">
               <img src={logo} alt="logo" className="header-logo" />
               <div className="header-text no-sub clearfix">
-                <span className="title">
+                <label className="title">
                   <WrappedAutosizeInput
                     value={title}
                     id="title"
                     onChange={this.handleInputChange}
                   />
                   <FaIcon icon="edit" />
-                </span>
-                <span className="subtitle">
+                </label>
+                <label className="subtitle">
                   <WrappedAutosizeInput
                     value={subtitle}
                     id="subtitle"
@@ -139,7 +141,7 @@ class MapPrinter extends React.Component {
                   />
                   <FaIcon icon="edit" />
                   <FaIcon weight="s" icon="times" />
-                </span>
+                </label>
               </div>
             </header>
             <div id="map">
