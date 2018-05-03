@@ -197,16 +197,8 @@
 
       .fa-edit,
       .fa-times {
-        opacity: 0;
-        transition: all 0.25s;
         margin: 0 0 0 0.5em;
         cursor: pointer;
-      }
-
-      .title:hover .fa-edit,
-      .subtitle:hover .fa-edit,
-      .subtitle:hover .fa-times {
-        opacity: 1;
       }
 
       .unstyled-button {
@@ -319,12 +311,12 @@
       /* Show/hide UI elements on sheet hover */
 
       .mapboxgl-ctrl-top-left,
-      .hidden-controls {
+      .hidden-control {
         opacity: 0;
         transition: all 0.1s;
       }
       .sheet:hover .mapboxgl-ctrl-top-left,
-      .sheet:hover .hidden-controls {
+      .sheet:hover .hidden-control {
         opacity: 1;
       }
 

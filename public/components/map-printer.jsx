@@ -1,6 +1,6 @@
 const FaIcon = (props) => {
   const weight = props.weight ? props.weight : 'r';
-  const iconClass = `fa${weight} fa-${props.icon}`;
+  const iconClass = `fa${weight} fa-${props.icon} ${props.className}`;
   return <i className={iconClass} />;
 };
 
@@ -143,7 +143,7 @@ class MapPrinter extends React.Component {
                       id="title"
                       onChange={this.handleInputChange}
                     />
-                    <FaIcon icon="edit" />
+                  <FaIcon icon="edit" className="hidden-control" />
                   </label>
                 </span>
                 {subtitle !== null ? (
@@ -154,12 +154,12 @@ class MapPrinter extends React.Component {
                         id="subtitle"
                         onChange={this.handleInputChange}
                       />
-                      <FaIcon icon="edit" />
+                      <FaIcon icon="edit" className="hidden-control" />
                     </label>
-                    <button className="unstyled-button" onClick={this.hideSubtitle}><FaIcon weight="s" icon="times" /></button>
+                    <button className="unstyled-button hidden-control" onClick={this.hideSubtitle}><FaIcon weight="s" icon="times" /></button>
                   </span>
                 ) : (
-                  <div className="hidden-controls">
+                  <div className="hidden-control">
                     <button className="unstyled-button button--add-subtitle" onClick={this.showSubtitle}>
                       <FaIcon weight="s" icon="plus-square" />&nbsp;Add Subtitle
                     </button>
