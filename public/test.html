@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Test Map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+
+        #about {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 10;
+          background: #e2e2e2b5;
+          padding: 15px;
+          opacity: 0.9;
+          max-width: 80%;
+        }
+
+        #inset-map {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 40%;
+          width: 40%;
+          z-index: 1;
+          border: 1px solid #808080;
+        }
+    </style>
+</head>
+<body>
+
+<div id='map'>
+  <div id='about'>
+    <h3>Test Map</h3>
+    <p>Use the print button to test the printing service</p>
+    <button onClick=print()>Print</button>
+    <button onClick=printReqiredOnly()>Print (only required)</button>
+  </div>
+</div>
+<script>
+
+  const map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: '//raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/style.json', //hosted style id
+    center: [-73.9661, 40.7823], // starting position
+    zoom: 14.04, // starting zoom
+    bearing: -61,
+    hash: true,
+    pitch: 50,
+  });
+
+  // add the zoom/rotate/pitch control to the map
+  map.addControl(new mapboxgl.NavigationControl());
+
+  function print() {
+    const config = {
+      mapConfig: {
+        style: map.getStyle(), // eslint-disable-line
+        center: map.getCenter(), // eslint-disable-line
+        zoom: map.getZoom(), // eslint-disable-line
+        bearing: map.getBearing(), // eslint-disable-line
+        pitch: map.getPitch(), // eslint-disable-line
+      },
+      logo: 'https://raw.githubusercontent.com/NYCPlanning/logo/master/dcp_logo_772.png',
+      title: 'This is a test title',
+      subtitle: 'This is a test subtitle',
+      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      source: 'This map came from the cloud!',
+      legendConfig: [
+        {
+          label: 'Section 1',
+          items: [
+            {
+              type: 'area',
+              label: 'Commercial Overlays',
+              style: {
+                fill: 'none',
+                stroke: '#ff0000',
+              },
+            },
+            {
+              type: 'area',
+              label: 'Bar Areas',
+              style: {
+                fill: '#3CFF33',
+                stroke: '#cdcdcd',
+              },
+            },
+            {
+              type: 'point',
+              label: 'Fizz Points',
+              style: {
+                fill: '#3333FF',
+                stroke: '#7DFF33',
+              },
+            },
+          ],
+        },
+        {
+          label: 'Section 2',
+          items: [
+            {
+              type: 'area',
+              label: 'Foo Areas',
+              style: {
+                fill: '#33C4FF',
+                stroke: '#cdcdcd',
+              },
+            },
+            {
+              type: 'area',
+              label: 'Bar Areas',
+              style: {
+                fill: '#3CFF33',
+                stroke: '#cdcdcd',
+              },
+            },
+            {
+              type: 'line',
+              label: 'Mapped Street',
+              style: {
+                fill: 'none',
+                stroke: '#000',
+              },
+            },
+            {
+              type: 'line',
+              label: 'Record Street',
+              style: {
+                fill: 'none',
+                stroke: '#000',
+                strokeWidth: '1',
+                strokeDasharray: '3, 1.5',
+              },
+            },
+          ],
+        },
+        {
+          label: 'Pierhead and Bulkhead Lines',
+          items: [
+            {
+              type: 'line',
+              label: 'Pierhead Lines',
+              style: {
+                fill: 'none',
+                stroke: '#3278C8',
+                strokeLinecap: 'round',
+                strokeDasharray: '5,2.5,0,2,0,2.5',
+              },
+            },
+            {
+              type: 'line',
+              label: 'Bulkhead Lines',
+              style: {
+                fill: 'none',
+                stroke: '#3278C8',
+                strokeLinecap: 'round',
+                strokeDasharray: '5,2,0,1.5,0,1.5,0,2',
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    sendPrintConfig(config);
+  }
+
+  function printReqiredOnly() {
+    const config = {
+      mapConfig: {
+        style: map.getStyle(), // eslint-disable-line
+        center: map.getCenter(), // eslint-disable-line
+        zoom: map.getZoom(), // eslint-disable-line
+      },
+      title: 'This is a test title',
+    };
+
+    sendPrintConfig(config);
+  }
+
+  function sendPrintConfig(config) {
+    fetch('http://localhost:3000/config', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(config),
+    })
+      .then(res => res.json())
+      .then((res) => {
+        console.log(res)
+        if (res.status === 'success') {
+          window.open('http://localhost:3000','_blank');
+        }
+      })
+  }
+
+</script>
+
+</body>
+</html>
