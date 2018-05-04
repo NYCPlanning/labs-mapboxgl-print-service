@@ -186,7 +186,7 @@
   }
 
   function sendPrintConfig(config) {
-    fetch('http://localhost:3000/config', {
+    fetch('/config', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -199,7 +199,7 @@
       .then((res) => {
         console.log(res)
         if (res.status === 'success') {
-          window.open('http://localhost:3000','_blank');
+          window.open('/','_blank');
         }
       })
   }
