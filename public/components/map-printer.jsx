@@ -72,7 +72,7 @@ class MapPrinter extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/config', {
+    fetch('/config', {
       credentials: 'include',
     })
       .then(d => d.json())
