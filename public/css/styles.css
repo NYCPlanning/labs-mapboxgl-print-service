@@ -395,7 +395,8 @@
 
       @media print {
         .instructions,
-        .mapboxgl-ctrl-top-left {
+        .mapboxgl-ctrl-top-left,
+        .hidden-control {
           display: none;
         }
       }

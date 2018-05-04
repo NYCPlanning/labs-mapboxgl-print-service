@@ -185,7 +185,7 @@ class MapPrinter extends React.Component {
                   <ToggleableElement
                     id="subtitleVisible"
                     visible={subtitleVisible}
-                    label="Add Subtitle"
+                    label="Show Subtitle"
                     onChange={this.toggleVisibility}
                   >
                     <span className="subtitle">
@@ -226,7 +226,7 @@ class MapPrinter extends React.Component {
               <ToggleableElement
                 id="sourceVisible"
                 visible={sourceVisible}
-                label="Add Source"
+                label="Show Source"
                 onChange={this.toggleVisibility}
               >
                 <div className="source">
