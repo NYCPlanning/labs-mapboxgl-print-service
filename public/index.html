@@ -7,31 +7,29 @@
     <link rel="stylesheet" href="/css/styles.css">
   </head>
   <body class="letter landscape">
-    <div class="instructions">
-      <p class="instructions-step">
-        <span class="step-number">1</span>
+    <ol class="instructions hide-for-print">
+      <li class="instructions-step clearfix">
         <strong>Choose an orientation</strong>
-        <label><input onclick="toggleLandscape()" type="radio" name="gender" value="male" /> Portrait</label>
-        <label><input onclick="toggleLandscape()" type="radio" name="gender" value="female" checked /> Landscape</label>
-      </p>
-      <p class="instructions-step">
-        <span class="step-number">2</span>
+        <label><input onclick="toggleLandscape()" type="radio" name="gender" value="male" />Portrait</label> &nbsp;&nbsp;
+        <label><input onclick="toggleLandscape()" type="radio" name="gender" value="female" checked />Landscape</label>
+      </li>
+      <li class="instructions-step clearfix">
         <strong>Position the map</strong>
-        You can adjust the map's pan and zoom.
-      </p>
-      <p class="instructions-step">
-        <span class="step-number">3</span>
-        <strong>Edit the map title</strong>
-        Click the map title to edit the text.
-      </p>
-      <p class="instructions-step">
-        <span class="step-number">4</span>
+        <small>Click and drag the map to adjust its pan and zoom. Scroll to zoom. Rotate the map by clicking and dragging while holding the right mouse button or CRTL key.</small>
+      </li>
+      <li class="instructions-step clearfix">
+        <strong>Customize the extras</strong>
+        <small>Be sure to give the map a clear and descriptive title. Hover the print preview to see the available options. Click the <i class="far fa-edit hidden-control"></i> to edit the item. Click the <i class="fas fa-times hidden-control"></i> to hide the item. </small>
+      </li>
+      <li class="instructions-step clearfix">
         <a class="button" href="javascript:window.print()">PRINT</a>
-      </p>
-    </div>
+      </li>
+    </ol>
+
     <div id="react-container"></div>
 
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
     <script src="https://unpkg.com/react@15.6.1/dist/react.js"></script>
   	<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>

@@ -172,6 +172,7 @@ class MapPrinter extends React.Component {
 
     return (
       <div id="map-printer">
+        <h1 className="preview-header hide-for-print">Print Preview</h1>
         <section className="sheet padding-10mm">
           <div className="container">
 

@@ -4,7 +4,6 @@
     <meta charset='utf-8' />
     <title>Test Map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
@@ -43,9 +42,12 @@
     <button onClick=printReqiredOnly()>Print (only required)</button>
   </div>
 </div>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
 <script>
 
-  const map = new mapboxgl.Map({
+  var map = new mapboxgl.Map({
     container: 'map', // container id
     style: '//raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/style.json', //hosted style id
     center: [-73.9661, 40.7823], // starting position
@@ -59,7 +61,7 @@
   map.addControl(new mapboxgl.NavigationControl());
 
   function print() {
-    const config = {
+    var config = {
       mapConfig: {
         style: map.getStyle(), // eslint-disable-line
         center: map.getCenter(), // eslint-disable-line
@@ -173,7 +175,7 @@
   }
 
   function printReqiredOnly() {
-    const config = {
+    var config = {
       mapConfig: {
         style: map.getStyle(), // eslint-disable-line
         center: map.getCenter(), // eslint-disable-line
@@ -195,13 +197,15 @@
       },
       body: JSON.stringify(config),
     })
-      .then(res => res.json())
-      .then((res) => {
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(res) {
         console.log(res)
         if (res.status === 'success') {
           window.open('http://localhost:3000','_blank');
         }
-      })
+      });
   }
 
 </script>

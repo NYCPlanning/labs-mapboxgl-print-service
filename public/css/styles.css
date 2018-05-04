@@ -66,6 +66,17 @@
         clear: both;
       }
 
+      .preview-header {
+        margin: 10mm 5mm 5mm;
+        color: #555;
+        font-size: 14pt;
+        font-weight: normal;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        word-spacing: 0.05em;
+      }
+
       .container {
         width: 100%;
         height: 100%;
@@ -177,8 +188,8 @@
       .fa-edit {  color: #559955; }
       .fa-times { color: #dd4444; }
 
-      .fa-edit,
-      .fa-times {
+      .sheet .fa-edit,
+      .sheet .fa-times {
         margin: 0 0 0 0.5em;
         cursor: pointer;
       }
@@ -251,12 +262,6 @@
         background-color: rgba(255, 255, 255, .5) !important;
         box-shadow: 0 0 0 5px rgba(255, 255, 255, .5);
       }
-      /* .source .fa-edit {
-        left: 100%;
-        bottom: 5pt;
-        margin-left: 0;
-        padding-left: 0.25em;
-      } */
 
       /* Legends */
       .legend-container {
@@ -299,6 +304,10 @@
         display: inline-block;
         vertical-align: top;
         margin: 0 0.5em 0 0;
+      }
+
+      label {
+        cursor: pointer;
       }
 
       input[type=text] {
@@ -347,7 +356,7 @@
       }
 
       .mapboxgl-ctrl-top-left,
-      .hidden-control {
+      .sheet .hidden-control {
         opacity: 0;
         transition: all 0.1s;
       }
@@ -357,17 +366,37 @@
       }
 
 
+      .instructions {
+        padding: 0 5mm;
+        list-style-type: none;
+      }
+
       @media screen and (min-width: 350mm) {
         .instructions {
-          /* background-color: pink; */
           width: 70mm;
           float: left;
           margin-left: calc(50vw - 140mm - 35mm);
-        }|
+          padding: 0;
+        }
       }
 
       .instructions-step {
+        counter-increment: step-counter;
         margin: 8mm 0;
+        padding-left: 30pt;
+      }
+      .instructions-step::before {
+        content: counter(step-counter);
+        background: SteelBlue;
+        color: #fefefe;
+        padding: 0.3em;
+        float: left;
+        min-width: 1em;
+        border-radius: 50%;
+        font-size: 14pt;
+        line-height: 1;
+        text-align: center;
+        margin-left: -30pt;
       }
 
       .instructions-step strong {
@@ -376,25 +405,12 @@
         font-size: 12pt;
       }
 
-      .step-number {
-        float: left;
-        min-width: 1em;
-        padding: 0.3em;
-        border-radius: 50%;
-        font-size: 1.5em;
-        line-height: 1;
-        text-align: center;
-        background: SteelBlue;
-        color: #fefefe;
-        margin: 0 9pt 9pt;
-      }
-
       .mapboxgl-ctrl-attrib {
         font-size: 7pt;
       }
 
       @media print {
-        .instructions,
+        .hide-for-print,
         .mapboxgl-ctrl-top-left,
         .hidden-control {
           display: none;
