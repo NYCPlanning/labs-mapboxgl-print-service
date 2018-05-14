@@ -1,3 +1,5 @@
+const { DragSource, DropTarget, DragDropContext } = ReactDnD;
+
 const LegendSymbol = (props) => {
   // defaults
   const {
@@ -32,42 +34,146 @@ const LegendSymbol = (props) => {
   );
 };
 
-const Legend = (props) => {
-  const sections = props.config;
-  if (sections === null) return (null);
-
-  return (
-    <div className="legend">
-      <h3 className="legend-header">Legend</h3>
-      {/* render sections */}
-      {sections.map((section) => {
-        const {
-          id,
-          label,
-          labelIcon,
-          items,
-        } = section;
-
-        return (
-          <div className="legend-section" key={id}>
-            <h4 className="legend-section-header">
-              {label}
-            </h4>
-
-            {/* render legendItems */}
-            {items && items.map((item) => {
-              const { type, label: itemLabel, style } = item;
-
-              return (
-                <div className="legend-item" key={itemLabel}>
-                  <LegendSymbol type={type} style={style} />
-                  {itemLabel}
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
-    </div>
-  );
+const sectionSource = {
+  beginDrag(props) {
+    return {
+      id: props.id,
+      index: props.index,
+    };
+  },
 };
+
+const sectionTarget = {
+  hover(props, monitor, component) {
+    console.log('sectionTarget hover');
+    console.log(props, monitor)
+
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = props.index;
+
+    console.log(dragIndex, hoverIndex)
+
+    // Don't replace items with themselves
+    if (dragIndex === hoverIndex) {
+      return;
+    }
+
+    // Determine rectangle on screen
+    const hoverBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect();
+
+    console.log('bounding rect', hoverBoundingRect)
+    // Get vertical middle
+    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+    // Determine mouse position
+    const clientOffset = monitor.getClientOffset();
+
+    // Get pixels to the top
+    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+    // Only perform the move when the mouse has crossed half of the items height
+    // When dragging downwards, only move when the cursor is below 50%
+    // When dragging upwards, only move when the cursor is above 50%
+
+    // Dragging downwards
+    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      return;
+    }
+
+    // Dragging upwards
+    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      return;
+    }
+
+    // Time to actually perform the action
+    props.moveSection(dragIndex, hoverIndex);
+
+    // Note: we're mutating the monitor item here!
+    // Generally it's better to avoid mutations,
+    // but it's good here for the sake of performance
+    // to avoid expensive index searches.
+    monitor.getItem().index = hoverIndex;
+  },
+};
+
+class Section extends React.Component { // eslint-disable-line
+  render() {
+    const {
+      label,
+      items,
+      isDragging,
+      connectDragSource,
+      connectDropTarget,
+    } = this.props;
+
+    return connectDragSource(connectDropTarget(<div className="legend-section">
+      <h4 className="legend-section-header">
+        {label}
+      </h4>
+
+      {/* render legendItems */}
+      {items && items.map((item) => {
+          const { type, label: itemLabel, style } = item;
+
+          return (
+            <div className="legend-item" key={itemLabel}>
+              <LegendSymbol type={type} style={style} />
+              {itemLabel}
+            </div>
+          );
+        })}
+                                               </div>));
+  }
+}
+
+Section = DragSource('section', sectionSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging(),
+}))(Section);
+
+Section = DropTarget('section', sectionTarget, connect => ({
+  connectDropTarget: connect.dropTarget(),
+}))(Section);
+
+class Legend extends React.Component { // eslint-disable-line
+  constructor(props) {
+    super(props);
+    this.moveSection = this.moveSection.bind(this)
+
+    console.log(props)
+    const { config: sections } = props;
+
+    this.state = {
+      sections,
+    };
+  }
+
+  moveSection(dragIndex, hoverIndex) {
+    const { sections } = this.state;
+    const dragSection = sections[dragIndex];
+
+    this.setState(update(this.state, {
+      sections: {
+        $splice: [[dragIndex, 1], [hoverIndex, 0, dragSection]],
+      },
+    }));
+  }
+
+  render() {
+    const { sections } = this.state;
+    if (sections === null) return (null);
+
+    return (
+      <div className="legend">
+        <h3 className="legend-header">Legend</h3>
+        {/* render sections */}
+        {sections.map((section, i) => {
+          const { id, label, items } = section;
+          return <Section key={id} index={i} id={id} label={label} items={items} moveSection={this.moveSection} />;
+        })}
+      </div>
+    );
+  }
+}
+
+Legend = DragDropContext(ReactDnDHTML5Backend)(Legend); // eslint-disable-line

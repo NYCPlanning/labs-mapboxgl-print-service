@@ -208,7 +208,7 @@ class MapPrinter extends React.Component {
                 label="Show Legend"
                 onChange={this.toggleVisibility}
               >
-                <Legend config={legendConfig} />
+                {legendConfig && <Legend config={legendConfig} />}
               </ToggleableElement>
             </div>
 
