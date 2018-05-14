@@ -35,7 +35,6 @@ const LegendSymbol = (props) => {
 const Legend = (props) => {
   const sections = props.config;
   if (sections === null) return (null);
-  console.log(sections)
 
   return (
     <div className="legend">
