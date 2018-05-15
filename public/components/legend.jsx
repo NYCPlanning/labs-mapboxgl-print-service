@@ -106,7 +106,9 @@ class Section extends React.Component { // eslint-disable-line
       connectDropTarget,
     } = this.props;
 
-    return connectDragSource(connectDropTarget(<div className="legend-section">
+    const opacity = isDragging ? 0 : 1;
+
+    return connectDragSource(connectDropTarget(<div className="legend-section" style={{ opacity }}>
       <h4 className="legend-section-header">
         {label}
       </h4>
@@ -152,11 +154,10 @@ class Legend extends React.Component { // eslint-disable-line
     const { sections } = this.state;
     const dragSection = sections[dragIndex];
 
-    this.setState(update(this.state, {
-      sections: {
-        $splice: [[dragIndex, 1], [hoverIndex, 0, dragSection]],
-      },
-    }));
+    sections.splice(dragIndex, 1);
+    sections.splice(hoverIndex, 0, dragSection);
+
+    this.setState({ sections });
   }
 
   render() {
@@ -168,6 +169,7 @@ class Legend extends React.Component { // eslint-disable-line
         <h3 className="legend-header">Legend</h3>
         {/* render sections */}
         {sections.map((section, i) => {
+          console.log(section);
           const { id, label, items } = section;
           return <Section key={id} index={i} id={id} label={label} items={items} moveSection={this.moveSection} />;
         })}
