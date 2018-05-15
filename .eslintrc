@@ -9,9 +9,11 @@
     "react/react-in-jsx-scope": 0,
     "react/jsx-no-undef": 0,
     "react/no-multi-comp": 0,
+    "react/no-find-dom-node": 0,
     "no-unused-vars": 0,
     "no-undef": 0,
-    "jsx-a11y/label-has-for": 0
+    "jsx-a11y/label-has-for": 0,
+    "no-class-assign": 0
   },
   "env": {
     "browser": true,
