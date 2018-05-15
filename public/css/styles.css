@@ -197,19 +197,6 @@
       .toggleable-element {
         position: relative;
       }
-      .button--hide {
-        position: absolute;
-        top: 0;
-        left: 100%;
-      }
-      .legend-container .button--hide {
-        left: auto;
-        right: 100%;
-        padding-right: 0.5em;
-      }
-      .button--show {
-        font-size: 7pt;
-      }
 
       .unstyled-button {
         cursor: pointer;
@@ -229,6 +216,29 @@
       .unstyled-button::-moz-focus-inner {
           border: 0;
           padding: 0;
+      }
+
+      .button--hide {
+        position: absolute;
+        top: 0;
+        left: 100%;
+      }
+
+      .legend-container .button--hide {
+        left: auto;
+        right: 100%;
+        padding-right: 0.5em;
+      }
+
+      .button--show {
+        font-size: 7pt;
+        color: #336633;
+        background-color: rgba(255,255,255,0.8);
+        padding: 2pt 4pt;
+      }
+      .button--show:hover {
+        color: #115522;
+        background-color: rgba(255,255,255,1);
       }
 
       .content-container {
@@ -275,13 +285,14 @@
       }
       .legend {
         font-size: 7pt;
-        box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
         line-height: 1.2;
+        box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
       }
 
       .legend-header {
         padding: 4pt;
         margin: 0;
+        background-color: rgba(255,255,255,0.8);
       }
 
       .legend-section-header {
@@ -290,18 +301,26 @@
 
       .legend-section {
         position: relative;
-        background-color: rgba(255,255,255,0.8);
         padding: 4pt;
         border-top: 1px solid #ddd;
+        background-color: rgba(255,255,255,0.8);
       }
 
       .legend-section.hidden {
         display: none;
-        background-color: rgba(255,255,255,0.4);
       }
 
       .sheet:hover .legend-section.hidden {
         display: block;
+        opacity: 0.25;
+      }
+
+      .sheet:hover .legend-section.hidden:hover {
+        opacity: 1;
+      }
+
+      .sheet:hover .legend-section.hidden .controls {
+        opacity: 1;
       }
 
       .legend-section .drag-handle {
@@ -448,7 +467,8 @@
       @media print {
         .hide-for-print,
         .mapboxgl-ctrl-top-left,
-        .hidden-control {
+        .hidden-control,
+        .controls {
           display: none;
         }
       }
