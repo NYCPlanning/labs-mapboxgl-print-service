@@ -205,7 +205,7 @@
       .legend-container .button--hide {
         left: auto;
         right: 100%;
-        margin-right: 0.5em;
+        padding-right: 0.5em;
       }
       .button--show {
         font-size: 7pt;
@@ -290,8 +290,41 @@
       }
 
       .legend-section {
+        position: relative;
         padding: 4pt;
         border-top: 1px solid #ddd;
+      }
+
+      .legend-section .hidden {
+        position: relative;
+        padding: 4pt;
+        border-top: 1px solid #ddd;
+      }
+
+      .legend-section .drag-handle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 6px 8px;
+        color: #666;
+        background-color: rgba(255, 255, 255, 0.9);
+      }
+
+      .legend-section .button--hide {
+        font-size: 1em;
+        padding: 0.5em 0.75em;
+      }
+
+      .legend .controls {
+        opacity: 0;
+      }
+
+      .legend:hover .controls {
+        opacity: 0.25;
+      }
+
+      .legend .legend-section:hover .controls {
+        opacity: 1;
       }
 
       .legend-item + .legend-item {

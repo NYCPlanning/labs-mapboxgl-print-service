@@ -1,9 +1,3 @@
-const FaIcon = (props) => {
-  const weight = props.weight ? props.weight : 'r';
-  const iconClass = `fa${weight} fa-${props.icon} ${props.className}`;
-  return <i className={iconClass} />;
-};
-
 class WrappedAutosizeInput extends React.Component {
   handleChange = (e) => {
     const { id, onChange } = this.props;
@@ -208,7 +202,7 @@ class MapPrinter extends React.Component {
                 label="Show Legend"
                 onChange={this.toggleVisibility}
               >
-                {legendConfig && <Legend config={legendConfig} />}
+                {legendConfig && <Legend sections={legendConfig} />}
               </ToggleableElement>
             </div>
 

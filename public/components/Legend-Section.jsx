@@ -1,11 +1,22 @@
 const { DragSource, DropTarget } = ReactDnD;
 
+const FaIcon = (props) => {
+  const weight = props.weight ? props.weight : 'r';
+  const iconClass = `fa${weight} fa-${props.icon} ${props.className}`;
+  return <i className={iconClass} />;
+};
+
 const sectionSource = {
   beginDrag(props) {
     return {
       id: props.id,
       index: props.index,
     };
+  },
+
+  // if section is not visble, it cannot be moved
+  canDrag(props) {
+    return props.visible;
   },
 };
 
@@ -60,16 +71,35 @@ class LegendSection extends React.Component {
   render() {
     const {
       label,
+      visible,
+      id,
       items,
       isDragging,
       connectDragSource,
       connectDropTarget,
+      onVisibilityToggle,
     } = this.props;
 
     const opacity = isDragging ? 0 : 1;
 
     const section = (
-      <div className="legend-section" style={{ opacity }}>
+      <div className={`legend-section ${visible ? '' : 'hidden-control'}`} style={{ opacity }}>
+        { visible &&
+          <div className="controls">
+            <button className="button--hide unstyled-button" onClick={() => { onVisibilityToggle(id); }}><FaIcon weight="s" icon="times" /></button>
+            <div className="drag-handle">
+              <FaIcon weight="s" icon="arrows-alt-v" />&nbsp;
+              <FaIcon weight="s" icon="ellipsis-v" />
+              <FaIcon weight="s" icon="ellipsis-v" />
+            </div>
+          </div>
+        }
+
+        { !visible &&
+          <div className="controls">
+            <button className="button--hide unstyled-button" onClick={() => { onVisibilityToggle(id); }}><FaIcon weight="s" icon="plus-square" /></button>
+          </div>
+        }
         <h4 className="legend-section-header">
           {label}
         </h4>
