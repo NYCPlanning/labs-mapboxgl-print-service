@@ -52,11 +52,14 @@ class Legend extends React.Component { // eslint-disable-line
     const { sections } = this.state;
     if (sections === null) return (null);
 
+    const visibleSections = sections.filter(d => d.visible);
+    const hiddenSections = sections.filter(d => !d.visible);
+
     return (
       <div className="legend">
         <h3 className="legend-header">Legend</h3>
         {/* render sections */}
-        {sections.map((section, i) => {
+        {visibleSections.map((section, i) => {
           const {
             id,
             label,
@@ -74,6 +77,24 @@ class Legend extends React.Component { // eslint-disable-line
               moveSection={this.moveSection}
               onVisibilityToggle={this.handleVisibilityToggle}
             />
+          );
+        })}
+        {hiddenSections.map((section, i) => {
+          const {
+            id,
+            label,
+            items,
+            visible,
+          } = section;
+          return (
+            <div key={id} className="legend-section hidden">
+              <h4 className="legend-section-header">
+                {label}
+              </h4>
+              <div className="controls">
+                <button className="button--hide unstyled-button" onClick={() => { this.handleVisibilityToggle(id); }}><FaIcon weight="s" icon="plus-square" /></button>
+              </div>
+            </div>
           );
         })}
       </div>

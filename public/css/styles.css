@@ -275,7 +275,6 @@
       }
       .legend {
         font-size: 7pt;
-        background-color: rgba(255,255,255,0.8);
         box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
         line-height: 1.2;
       }
@@ -291,14 +290,18 @@
 
       .legend-section {
         position: relative;
+        background-color: rgba(255,255,255,0.8);
         padding: 4pt;
         border-top: 1px solid #ddd;
       }
 
-      .legend-section .hidden {
-        position: relative;
-        padding: 4pt;
-        border-top: 1px solid #ddd;
+      .legend-section.hidden {
+        display: none;
+        background-color: rgba(255,255,255,0.4);
+      }
+
+      .sheet:hover .legend-section.hidden {
+        display: block;
       }
 
       .legend-section .drag-handle {
