@@ -60,6 +60,7 @@ class MapPrinter extends React.Component {
       source: '',
       sourceVisible: true,
       bearing: 0,
+      pitch: 0,
       legendConfig: null,
       legendVisible: true,
     };
@@ -106,6 +107,10 @@ class MapPrinter extends React.Component {
 
     map.on('rotate', () => {
       this.setState({ bearing: map.getBearing() });
+    });
+
+    map.on('pitch', () => {
+      this.setState({ pitch: map.getPitch() });
     });
 
     const nav = new mapboxgl.NavigationControl();
@@ -155,13 +160,14 @@ class MapPrinter extends React.Component {
       content,
       contentVisible,
       bearing,
+      pitch,
       source,
       sourceVisible,
       legendConfig,
       legendVisible,
     } = this.state;
 
-    const transform = `rotate(${360 - bearing}deg)`;
+    const transform = `rotateX(${pitch}deg) rotate(${360 - bearing}deg)`;
 
 
     return (
@@ -193,7 +199,9 @@ class MapPrinter extends React.Component {
 
             <div id="map" />
 
-            <div id="north-arrow" style={{ transform }}><span className="n">N</span></div>
+            <div id="north-arrow-container">
+              <div id="north-arrow" style={{ transform }}><span className="n">N</span></div>
+            </div>
 
             <div className="legend-container">
               <ToggleableElement
