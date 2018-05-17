@@ -72,6 +72,7 @@ class LegendSection extends React.Component {
     const {
       label,
       visible,
+      editable,
       id,
       items,
       isDragging,
@@ -82,16 +83,23 @@ class LegendSection extends React.Component {
 
     const opacity = isDragging ? 0 : 1;
 
+    let sectionControls = (
+      <div className="controls">
+        <button className="button--hide unstyled-button" onClick={() => { onVisibilityToggle(id); }}><FaIcon weight="s" icon="times" /></button>
+        <div className="drag-handle">
+          <FaIcon weight="s" icon="arrows-alt-v" />&nbsp;
+          <FaIcon weight="s" icon="ellipsis-v" />
+          <FaIcon weight="s" icon="ellipsis-v" />
+        </div>
+      </div>
+    );
+    if (editable === false) {
+      sectionControls = '';
+    }
+
     const section = (
       <div className="legend-section" style={{ opacity }}>
-        <div className="controls">
-          <button className="button--hide unstyled-button" onClick={() => { onVisibilityToggle(id); }}><FaIcon weight="s" icon="times" /></button>
-          <div className="drag-handle">
-            <FaIcon weight="s" icon="arrows-alt-v" />&nbsp;
-            <FaIcon weight="s" icon="ellipsis-v" />
-            <FaIcon weight="s" icon="ellipsis-v" />
-          </div>
-        </div>
+        {sectionControls}
 
         <h4 className="legend-section-header">
           {label}

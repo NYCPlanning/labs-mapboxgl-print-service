@@ -20,7 +20,7 @@ class WrappedAutosizeInput extends React.Component {
 }
 
 const EditableTextInput = props => (
-  <label>
+  <label className="editable-input">
     <WrappedAutosizeInput
       value={props.value}
       id={props.id}
@@ -31,11 +31,19 @@ const EditableTextInput = props => (
 );
 
 const ToggleableElement = (props) => {
-  if (props.visible) {
+  if (props.visible && (props.editable !==false)) {
     return (
       <div className="toggleable-element">
         {props.children}
         <button className="button--hide unstyled-button hidden-control" onClick={() => { props.onChange(props.id); }}><FaIcon weight="s" icon="times" /></button>
+      </div>
+    );
+  }
+
+  if (props.visible) {
+    return (
+      <div className="toggleable-element">
+        {props.children}
       </div>
     );
   }
@@ -56,14 +64,18 @@ class MapPrinter extends React.Component {
       titleEditable: true,
       subtitle: '',
       subtitleVisible: true,
+      subtitleEditable: true,
       content: null,
       contentVisible: true,
+      contentEditable: true,
       source: '',
       sourceVisible: true,
+      sourceEditable: true,
       bearing: 0,
       pitch: 0,
       legendConfig: null,
       legendVisible: true,
+      legendEditable: true,
     };
   }
 
@@ -85,9 +97,13 @@ class MapPrinter extends React.Component {
       titleEditable,
       logo = '',
       subtitle = null,
+      subtitleEditable,
       source = '',
+      sourceEditable,
       content = '',
+      contentEditable,
       legendConfig = null,
+      legendEditable,
     } = config;
 
     const {
@@ -126,10 +142,14 @@ class MapPrinter extends React.Component {
       title,
       titleEditable,
       subtitle,
+      subtitleEditable,
       source,
+      sourceEditable,
       bearing,
       content,
+      contentEditable,
       legendConfig,
+      legendEditable,
     });
   }
 
@@ -153,21 +173,35 @@ class MapPrinter extends React.Component {
       titleEditable,
       subtitle,
       subtitleVisible,
+      subtitleEditable,
       content,
       contentVisible,
+      contentEditable,
       bearing,
       pitch,
       source,
       sourceVisible,
+      sourceEditable,
       legendConfig,
       legendVisible,
+      legendEditable,
     } = this.state;
 
     const transform = `rotateX(${pitch}deg) rotate(${360 - bearing}deg)`;
 
     let titleInput = <EditableTextInput value={title} id="title" onChange={this.handleInputChange} />;
     if (titleEditable === false) {
-      titleInput = <span id="title"><input value={title} type="text" readOnly="true" /></span>;
+      titleInput = <span id="title"><span className="text-box">{title}</span></span>;
+    }
+
+    let subtitleInput = <EditableTextInput value={subtitle} id="subtitle" onChange={this.handleInputChange} />;
+    if (subtitleEditable === false) {
+      subtitleInput = <span id="subtitle"><span className="text-box">{subtitle}</span></span>;
+    }
+
+    let sourceInput = <EditableTextInput value={source} id="source" onChange={this.handleInputChange} />;
+    if (sourceEditable === false) {
+      sourceInput = <span id="source"><span className="text-box">{source}</span></span>;
     }
 
     return (
@@ -179,19 +213,16 @@ class MapPrinter extends React.Component {
             <header className="header">
               {logo && <img src={logo} alt="logo" className="header-logo" />}
               <div className={subtitleVisible ? 'header-text clearfix' : 'header-text clearfix no-subtitle'}>
-                <span className="title">
-                  {titleInput}
-                </span>
+                <span className="title">{titleInput}</span>
                 <div className="subtitle-container">
                   <ToggleableElement
                     id="subtitleVisible"
                     visible={subtitleVisible}
                     label="Show Subtitle"
                     onChange={this.toggleVisibility}
+                    editable={subtitleEditable}
                   >
-                    <span className="subtitle">
-                      <EditableTextInput value={subtitle} id="subtitle" onChange={this.handleInputChange} />
-                    </span>
+                    <span className="subtitle">{subtitleInput}</span>
                   </ToggleableElement>
                 </div>
               </div>
@@ -209,8 +240,9 @@ class MapPrinter extends React.Component {
                 visible={legendVisible}
                 label="Show Legend"
                 onChange={this.toggleVisibility}
+                editable={legendEditable}
               >
-                {legendConfig && <Legend sections={legendConfig} />}
+                {legendConfig && <Legend sections={legendConfig} editable={legendEditable} />}
               </ToggleableElement>
             </div>
 
@@ -220,6 +252,7 @@ class MapPrinter extends React.Component {
                 visible={contentVisible}
                 label="Show Content"
                 onChange={this.toggleVisibility}
+                editable={contentEditable}
               >
                 <div className="content">{content}</div>
               </ToggleableElement>
@@ -231,10 +264,9 @@ class MapPrinter extends React.Component {
                 visible={sourceVisible}
                 label="Show Source"
                 onChange={this.toggleVisibility}
+                editable={sourceEditable}
               >
-                <div className="source">
-                  <EditableTextInput value={source} id="source" onChange={this.handleInputChange} />
-                </div>
+                <div className="source">{sourceInput}</div>
               </ToggleableElement>
             </div>
 

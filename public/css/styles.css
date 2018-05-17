@@ -170,7 +170,8 @@
       .subtitle-container { clear: left; float: left; }
       .subtitle { float: left; }
 
-      .title input {
+      .title input,
+      .title .text-box {
         font-size: 2em;
         margin: -0.25em 0 0;
         font-weight: bold;
@@ -179,7 +180,8 @@
         margin-top: 1em;
       }
 
-      .subtitle input {
+      .subtitle input,
+      .subtitle .text-box {
         font-size: 1.375em;
         margin: 0;
         font-weight: normal;
@@ -267,7 +269,8 @@
         padding: 5px;
         /* background-color: rgba(255, 255, 255, .5); */
       }
-      .source input {
+      .source input,
+      .source .text-box {
         font-size: 7pt;
         background-color: rgba(255, 255, 255, .5) !important;
         box-shadow: 0 0 0 5px rgba(255, 255, 255, .5);
@@ -365,7 +368,14 @@
         cursor: pointer;
       }
 
-      input[type=text] {
+      .text-box {
+        display: inline-block;
+        box-sizing: content-box;
+        line-height: normal;
+      }
+
+      input[type=text],
+      .text-box {
         max-width: 100% !important;
         border: 1px solid transparent;
         background-color: transparent;
@@ -375,8 +385,8 @@
            -moz-appearance: none;
                 appearance: none;
       }
-      .sheet:hover :hover > input,
-      .sheet:hover input:focus {
+      .sheet:hover .editable-input:hover input,
+      .sheet:hover .editable-input input:focus {
         border-bottom: 1px solid #bbb;
       }
       input:focus,
