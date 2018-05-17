@@ -375,8 +375,8 @@
            -moz-appearance: none;
                 appearance: none;
       }
-      :hover > input,
-      input:focus {
+      .sheet:hover :hover > input,
+      .sheet:hover input:focus {
         border-bottom: 1px solid #bbb;
       }
       input:focus,

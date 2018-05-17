@@ -53,6 +53,7 @@ class MapPrinter extends React.Component {
     this.state = {
       logo: null,
       title: '',
+      titleEditable: true,
       subtitle: '',
       subtitleVisible: true,
       content: null,
@@ -81,6 +82,7 @@ class MapPrinter extends React.Component {
     const {
       mapConfig,
       title,
+      titleEditable,
       logo = '',
       subtitle = null,
       source = '',
@@ -122,6 +124,7 @@ class MapPrinter extends React.Component {
     this.setState({
       logo,
       title,
+      titleEditable,
       subtitle,
       source,
       bearing,
@@ -143,18 +146,11 @@ class MapPrinter extends React.Component {
     this.setState(obj);
   }
 
-  // hideSubtitle = () => {
-  //   this.setState({ subtitleVisible: false });
-  // }
-  //
-  // showSubtitle = () => {
-  //   this.setState({ subtitleVisible: true });
-  // }
-
   render() {
     const {
       logo,
       title,
+      titleEditable,
       subtitle,
       subtitleVisible,
       content,
@@ -169,6 +165,10 @@ class MapPrinter extends React.Component {
 
     const transform = `rotateX(${pitch}deg) rotate(${360 - bearing}deg)`;
 
+    let titleInput = <EditableTextInput value={title} id="title" onChange={this.handleInputChange} />;
+    if (titleEditable === false) {
+      titleInput = <span id="title"><input value={title} type="text" readOnly="true" /></span>;
+    }
 
     return (
       <div id="map-printer">
@@ -180,7 +180,7 @@ class MapPrinter extends React.Component {
               {logo && <img src={logo} alt="logo" className="header-logo" />}
               <div className={subtitleVisible ? 'header-text clearfix' : 'header-text clearfix no-subtitle'}>
                 <span className="title">
-                  <EditableTextInput value={title} id="title" onChange={this.handleInputChange} />
+                  {titleInput}
                 </span>
                 <div className="subtitle-container">
                   <ToggleableElement
