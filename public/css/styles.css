@@ -252,6 +252,7 @@
         padding: 0.75rem;
         background-color: rgba(255,255,255,0.8);
         box-shadow: 0 0 0 1pt rgba(0,0,0,0.1);
+        font-size: 8pt;
         line-height: 1.5;
       }
 
