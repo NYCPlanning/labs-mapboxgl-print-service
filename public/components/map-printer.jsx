@@ -31,7 +31,7 @@ const EditableTextInput = props => (
 );
 
 const ToggleableElement = (props) => {
-  if (props.visible && (props.editable !==false)) {
+  if (props.visible && (props.editable !== false)) {
     return (
       <div className="toggleable-element">
         {props.children}
