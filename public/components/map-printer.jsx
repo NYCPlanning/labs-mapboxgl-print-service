@@ -73,7 +73,7 @@ class MapPrinter extends React.Component {
       sourceEditable: true,
       bearing: 0,
       pitch: 0,
-      legendConfig: null,
+      legend: null,
       legendVisible: true,
       legendEditable: true,
     };
@@ -102,7 +102,7 @@ class MapPrinter extends React.Component {
       sourceEditable,
       content = '',
       contentEditable,
-      legendConfig = null,
+      legend = null,
       legendEditable,
     } = config;
 
@@ -148,7 +148,7 @@ class MapPrinter extends React.Component {
       bearing,
       content,
       contentEditable,
-      legendConfig,
+      legend,
       legendEditable,
     });
   }
@@ -182,12 +182,14 @@ class MapPrinter extends React.Component {
       source,
       sourceVisible,
       sourceEditable,
-      legendConfig,
+      legend,
       legendVisible,
       legendEditable,
     } = this.state;
 
-    const transform = `rotateX(${pitch}deg) rotate(${360 - bearing}deg)`;
+    const arrowTransform = `rotateX(${pitch}deg) rotate(${360 - bearing}deg)`;
+    const nTransform = `rotate(${360 - bearing}deg)`;
+    const nSpanTransform = `rotate(${(360 - bearing) * -1}deg)`;
 
     let titleInput = <EditableTextInput value={title} id="title" onChange={this.handleInputChange} />;
     if (titleEditable === false) {
@@ -212,63 +214,72 @@ class MapPrinter extends React.Component {
 
             <header className="header">
               {logo && <img src={logo} alt="logo" className="header-logo" />}
-              <div className={subtitleVisible ? 'header-text clearfix' : 'header-text clearfix no-subtitle'}>
+              <div className={subtitle && subtitleVisible ? 'header-text clearfix' : 'header-text clearfix no-subtitle'}>
                 <span className="title">{titleInput}</span>
-                <div className="subtitle-container">
-                  <ToggleableElement
-                    id="subtitleVisible"
-                    visible={subtitleVisible}
-                    label="Show Subtitle"
-                    onChange={this.toggleVisibility}
-                    editable={subtitleEditable}
-                  >
-                    <span className="subtitle">{subtitleInput}</span>
-                  </ToggleableElement>
-                </div>
+                {subtitle &&
+                  <div className="subtitle-container">
+                    <ToggleableElement
+                      id="subtitleVisible"
+                      visible={subtitleVisible}
+                      label="Show Subtitle"
+                      onChange={this.toggleVisibility}
+                      editable={subtitleEditable}
+                    >
+                      <span className="subtitle">{subtitleInput}</span>
+                    </ToggleableElement>
+                  </div>
+                }
               </div>
             </header>
 
             <div id="map" />
 
             <div id="north-arrow-container">
-              <div id="north-arrow" style={{ transform }}><span className="n">N</span></div>
+              <div id="north-arrow" style={{ transform: arrowTransform }} />
+              <div id="north-n" style={{ transform: nTransform }}><span className="n" style={{ transform: nSpanTransform }}>N</span></div>
             </div>
 
-            <div className="legend-container">
-              <ToggleableElement
-                id="legendVisible"
-                visible={legendVisible}
-                label="Show Legend"
-                onChange={this.toggleVisibility}
-                editable={legendEditable}
-              >
-                {legendConfig && <Legend sections={legendConfig} editable={legendEditable} />}
-              </ToggleableElement>
-            </div>
+            {legend &&
+              <div className="legend-container">
+                <ToggleableElement
+                  id="legendVisible"
+                  visible={legendVisible}
+                  label="Show Legend"
+                  onChange={this.toggleVisibility}
+                  editable={legendEditable}
+                >
+                  {legend && <Legend sections={legend} editable={legendEditable} />}
+                </ToggleableElement>
+              </div>
+            }
 
-            <div className="content-container">
-              <ToggleableElement
-                id="contentVisible"
-                visible={contentVisible}
-                label="Show Content"
-                onChange={this.toggleVisibility}
-                editable={contentEditable}
-              >
-                <div className="content">{content}</div>
-              </ToggleableElement>
-            </div>
+            {content &&
+              <div className="content-container">
+                <ToggleableElement
+                  id="contentVisible"
+                  visible={contentVisible}
+                  label="Show Content"
+                  onChange={this.toggleVisibility}
+                  editable={contentEditable}
+                >
+                  <div className="content">{content}</div>
+                </ToggleableElement>
+              </div>
+            }
 
-            <div className="source-container">
-              <ToggleableElement
-                id="sourceVisible"
-                visible={sourceVisible}
-                label="Show Source"
-                onChange={this.toggleVisibility}
-                editable={sourceEditable}
-              >
-                <div className="source">{sourceInput}</div>
-              </ToggleableElement>
-            </div>
+            {source &&
+              <div className="source-container">
+                <ToggleableElement
+                  id="sourceVisible"
+                  visible={sourceVisible}
+                  label="Show Source"
+                  onChange={this.toggleVisibility}
+                  editable={sourceEditable}
+                >
+                  <div className="source">{sourceInput}</div>
+                </ToggleableElement>
+              </div>
+            }
 
           </div>
         </section>
