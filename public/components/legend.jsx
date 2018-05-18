@@ -6,10 +6,12 @@ class Legend extends React.Component { // eslint-disable-line
     this.moveSection = this.moveSection.bind(this);
     this.handleVisibilityToggle = this.handleVisibilityToggle.bind(this);
 
+    const { editable } = props;
     let { sections } = props;
 
     sections = sections.map((d) => {
       d.visible = true;
+      d.editable = editable;
       return d;
     });
 
@@ -65,6 +67,7 @@ class Legend extends React.Component { // eslint-disable-line
             label,
             items,
             visible,
+            editable,
           } = section;
           return (
             <LegendSection
@@ -76,6 +79,7 @@ class Legend extends React.Component { // eslint-disable-line
               visible={visible}
               moveSection={this.moveSection}
               onVisibilityToggle={this.handleVisibilityToggle}
+              editable={editable}
             />
           );
         })}

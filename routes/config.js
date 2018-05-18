@@ -62,7 +62,7 @@ const PrintSchema = {
     content: {
       type: 'string',
     },
-    legendConfig: {
+    legend: {
       type: 'array',
     },
   }
@@ -72,7 +72,7 @@ const PrintSchema = {
 router.post('/', validate({body: PrintSchema}), (req, res, next) => {
   console.log(req);
   const {
-    style, center, zoom, bearing, pitch, title, content, legendConfig
+    style, center, zoom, bearing, pitch, title, content, legend
   } = req.body;
 
   req.session.config = req.body;
