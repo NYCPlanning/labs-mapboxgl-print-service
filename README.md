@@ -1,4 +1,4 @@
-# labs-map-print
+# labs-mapboxgl-print-service
 
 Print Layout Service for MapboxGL Web Maps
 
