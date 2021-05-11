@@ -1,6 +1,22 @@
-# labs-map-print
+# labs-mapboxgl-print-service
 
 Print Layout Service for MapboxGL Web Maps
+
+## Requirements
+
+You will need the following things properly installed on your computer.
+
+* [Git](https://git-scm.com/)
+* [Node.js](https://nodejs.org/) (with npm)
+  - This installation was tested using Node v14.15.0
+
+## Local development
+
+* Clone this repo: `git clone git@github.com:NYCPlanning/labs-mapboxgl-print-service.git`
+* Navigate to the directory: `cd labs-mapboxgl-print-service`
+* Install dependencies: `npm install`
+* Start the server: `npm run start`
+* Visit your app at [http://localhost:3000](http://localhost:3000).
 
 ## How to Use
 
