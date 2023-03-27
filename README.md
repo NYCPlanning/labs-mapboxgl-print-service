@@ -7,8 +7,7 @@ Print Layout Service for MapboxGL Web Maps
 You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with npm)
-  - This installation was tested using Node v14.15.0
+* [Node.js](https://nodejs.org/) (with npm) **version listed in .nvmrc**
 
 ## Local development
 
